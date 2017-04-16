@@ -6,6 +6,12 @@ varying vec4 v_Color;
 varying vec2 v_Uv;
 
 void main() {
-    vec2 flipped_texcoord = vec2(v_Uv.x, 1.0 - v_Uv.y);
-    gl_FragColor = v_Color + texture2D(texture, flipped_texcoord);
+    vec2 flippedTexcoord = vec2(v_Uv.x, 1.0 - v_Uv.y);
+    vec4 fontColor = texture2D(texture, flippedTexcoord);
+    if(fontColor.a <= 0.5) {
+        discard;
+    } else {
+        gl_FragColor = v_Color * fontColor;
+    }
+
 }
