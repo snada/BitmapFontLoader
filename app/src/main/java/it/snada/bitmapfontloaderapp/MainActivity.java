@@ -16,10 +16,6 @@ import java.io.InputStreamReader;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import shaders.ShaderProgram;
-import shapes.Plane;
-import textures.Texture;
-
 public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     private GLSurfaceView mGLView;
 
@@ -134,7 +130,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     }
 
     /**
-     * Converts a raw text file into a string: useful to load shaders from text files
+     * Converts a raw text file into a string: useful to load it.snada.bitmapfontloader.shaders from text files
      *
      * @param resId The resource ID of the raw text file about to be turned into a shader.
      * @return The context of the text file, or null in case of error.

@@ -1,4 +1,4 @@
-package textures;
+package it.snada.bitmapfontloaderapp;
 
 import android.graphics.Bitmap;
 import android.opengl.GLES20;

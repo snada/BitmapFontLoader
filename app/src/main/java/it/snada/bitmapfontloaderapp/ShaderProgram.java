@@ -1,4 +1,4 @@
-package shaders;
+package it.snada.bitmapfontloaderapp;
 
 import android.opengl.GLES20;
 

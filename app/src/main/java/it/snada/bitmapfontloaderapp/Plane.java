@@ -1,4 +1,4 @@
-package shapes;
+package it.snada.bitmapfontloaderapp;
 
 import android.opengl.Matrix;
 
