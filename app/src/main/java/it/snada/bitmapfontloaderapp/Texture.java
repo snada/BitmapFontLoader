@@ -4,10 +4,6 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
-/**
- * Created by snada on 15/04/2017.
- */
-
 public class Texture {
     private int id;
 

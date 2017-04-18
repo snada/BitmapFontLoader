@@ -2,10 +2,6 @@ package it.snada.bitmapfontloaderapp;
 
 import android.opengl.GLES20;
 
-/**
- * Created by snada on 15/04/2017.
- */
-
 public class ShaderProgram {
     private int id;
 
