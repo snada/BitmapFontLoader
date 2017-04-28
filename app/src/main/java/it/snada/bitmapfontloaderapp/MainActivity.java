@@ -7,6 +7,9 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Bundle;
+import android.util.Log;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +18,9 @@ import java.io.InputStreamReader;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import it.snada.bitmap_font_loader.AngelCodeXmlLoader;
+import it.snada.bitmap_font_loader.BitmapFont;
 
 public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     private GLSurfaceView mGLView;
@@ -79,6 +85,14 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
         texture = new Texture(bitmap);
 
         program = new ShaderProgram(readRawTextFile(R.raw.vertex_shader), readRawTextFile(R.raw.fragment_shader));
+
+        try {
+            BitmapFont font = AngelCodeXmlLoader.load(getResources().openRawResource(R.raw.arial));
+        } catch(XmlPullParserException e) {
+            Log.e(TAG, "Your xml file has an error: " + e);
+        } catch(IOException e) {
+            Log.e(TAG, "There's an error with your file: " + e);
+        }
     }
 
     public void onDrawFrame(GL10 unused) {
@@ -130,7 +144,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     }
 
     /**
-     * Converts a raw text file into a string: useful to load it.snada.bitmapfontloader.shaders from text files
+     * Converts a raw text file into a string: useful to load shaders from text files
      *
      * @param resId The resource ID of the raw text file about to be turned into a shader.
      * @return The context of the text file, or null in case of error.
