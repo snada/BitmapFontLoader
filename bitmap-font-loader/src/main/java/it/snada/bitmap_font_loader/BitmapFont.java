@@ -1,5 +1,10 @@
 package it.snada.bitmap_font_loader;
 
+import android.util.SparseArray;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class BitmapFont {
     /**
      * Font face (name)
@@ -80,6 +85,15 @@ public class BitmapFont {
      * Font vertical spacing
      */
     private int verticalSpacing;
+
+    /**
+     * Font pages
+     */
+    private SparseArray<String> pages;
+
+    public BitmapFont() {
+        pages = new SparseArray<String>();
+    }
 
     /**
      * Font face name
@@ -335,5 +349,13 @@ public class BitmapFont {
      */
     public void setVerticalSpacing(int verticalSpacing) {
         this.verticalSpacing = verticalSpacing;
+    }
+
+    public void insertPage(int id, String value) {
+        pages.append(id, value);
+    }
+
+    public String getPage(int id) {
+        return pages.get(id);
     }
 }

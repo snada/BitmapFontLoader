@@ -53,6 +53,9 @@ public class AngelCodeXmlLoader {
 
                         font.setOutline(Integer.parseInt(parser.getAttributeValue(null, "outline")));
                         break;
+                    case "page":
+                        font.insertPage(Integer.parseInt(parser.getAttributeValue(null, "id")), parser.getAttributeValue(null, "file"));
+                        break;
                 }
             }
             eventType = parser.next();
