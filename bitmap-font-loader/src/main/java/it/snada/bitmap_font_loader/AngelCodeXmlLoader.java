@@ -56,6 +56,22 @@ public class AngelCodeXmlLoader {
                     case "page":
                         font.insertPage(Integer.parseInt(parser.getAttributeValue(null, "id")), parser.getAttributeValue(null, "file"));
                         break;
+                    case "char":
+                        font.insertChar(new BitmapChar(
+                                Integer.parseInt(parser.getAttributeValue(null, "id")),
+                                Integer.parseInt(parser.getAttributeValue(null, "x")),
+                                Integer.parseInt(parser.getAttributeValue(null, "y")),
+                                Integer.parseInt(parser.getAttributeValue(null, "width")),
+                                Integer.parseInt(parser.getAttributeValue(null, "height")),
+                                Integer.parseInt(parser.getAttributeValue(null, "xoffset")),
+                                Integer.parseInt(parser.getAttributeValue(null, "yoffset")),
+                                Integer.parseInt(parser.getAttributeValue(null, "xadvance")),
+                                Integer.parseInt(parser.getAttributeValue(null, "page")),
+                                GlyphChannelContent.valueOf(
+                                        Integer.parseInt(parser.getAttributeValue(null, "chnl"))
+                                )
+                        ));
+                        break;
                 }
             }
             eventType = parser.next();

@@ -88,8 +88,14 @@ public class BitmapFont {
      */
     private SparseArray<String> pages;
 
+    /**
+     * Font chars
+     */
+    private SparseArray<BitmapChar> chars;
+
     public BitmapFont() {
         pages = new SparseArray<String>();
+        chars = new SparseArray<BitmapChar>();
     }
 
     /**
@@ -348,11 +354,59 @@ public class BitmapFont {
         this.verticalSpacing = verticalSpacing;
     }
 
+    /**
+     * Inserts a texture page for this font
+     * @param id int value, page index
+     * @param value String value, texture name
+     */
     public void insertPage(int id, String value) {
-        pages.append(id, value);
+        pages.put(id, value);
     }
 
+    /**
+     * Gets a texture name given a page id
+     * @param id int value
+     * @return String value, texture name
+     */
     public String getPage(int id) {
         return pages.get(id);
+    }
+
+    /**
+     * Inserts into this font a Bitmap character
+     * @param bitmapChar bitmap char
+     */
+    public void insertChar(BitmapChar bitmapChar) {
+        chars.put(bitmapChar.getId(), bitmapChar);
+    }
+
+    /**
+     * Gets a bitmap char for this font, if string is exactly 1 char long, throws IllegalArgumentException otherwise
+     * @param letter String value containing one char
+     * @return BitmapChar value
+     */
+    public BitmapChar getChar(String letter) {
+        if(letter.length() != 1) {
+            throw new IllegalArgumentException("You can only pass a single character");
+        }
+        return getChar(letter.charAt(0));
+    }
+
+    /**
+     * Gets a bitmap char for a given char
+     * @param letter char value
+     * @return BitmapChar value
+     */
+    public BitmapChar getChar(char letter) {
+        return getChar((int)letter);
+    }
+
+    /**
+     * Gets a bitmap char by id, or char int value
+     * @param letter char int value
+     * @return BitmapChar value
+     */
+    public BitmapChar getChar(int letter) {
+        return chars.get(letter);
     }
 }
