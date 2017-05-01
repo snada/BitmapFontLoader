@@ -2,9 +2,6 @@ package it.snada.bitmap_font_loader;
 
 import android.util.SparseArray;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class BitmapFont {
     /**
      * Font face (name)
