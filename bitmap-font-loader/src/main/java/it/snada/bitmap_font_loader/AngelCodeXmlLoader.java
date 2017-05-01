@@ -72,6 +72,13 @@ public class AngelCodeXmlLoader {
                                 )
                         ));
                         break;
+                    case "kerning":
+                        font.insertKerning(
+                                Integer.parseInt(parser.getAttributeValue(null, "first")),
+                                Integer.parseInt(parser.getAttributeValue(null, "second")),
+                                Integer.parseInt(parser.getAttributeValue(null, "amount"))
+                        );
+                        break;
                 }
             }
             eventType = parser.next();

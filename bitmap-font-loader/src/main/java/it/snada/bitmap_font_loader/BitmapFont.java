@@ -93,9 +93,15 @@ public class BitmapFont {
      */
     private SparseArray<BitmapChar> chars;
 
+    /**
+     * Kernings
+     */
+    private SparseArray<SparseArray<Integer>> kernings;
+
     public BitmapFont() {
-        pages = new SparseArray<String>();
-        chars = new SparseArray<BitmapChar>();
+        pages = new SparseArray<>();
+        chars = new SparseArray<>();
+        kernings = new SparseArray<>();
     }
 
     /**
@@ -409,4 +415,57 @@ public class BitmapFont {
     public BitmapChar getChar(int letter) {
         return chars.get(letter);
     }
+
+    /**
+     * Inserts a new kerning (x adjustment for second char) for a given pair
+     * @param first BitmapChar char id
+     * @param second BitmapChar char id
+     * @param amount int value
+     */
+    public void insertKerning(BitmapChar first, BitmapChar second, int amount) {
+        insertKerning(first.getId(), second.getId(), amount);
+    }
+
+    /**
+     * Inserts a new kerning (x adjustment for second char) for a given pair
+     * @param first int char id
+     * @param second int char id
+     * @param amount int value
+     */
+    public void insertKerning(int first, int second, int amount) {
+        SparseArray<Integer> firstKernings = kernings.get(first);
+
+        if(firstKernings == null) {
+            SparseArray<Integer> newSparseArray = new SparseArray<>();
+            kernings.put(first, newSparseArray);
+            firstKernings = newSparseArray;
+        }
+
+        firstKernings.put(second, amount);
+    }
+
+    /**
+     * Gets a kerning amount given a pair of chars
+     * @param first BitmapChar value
+     * @param second BitmapChar value
+     * @return int amount
+     */
+    public int getKerning(BitmapChar first, BitmapChar second) {
+        return getKerning(first.getId(), second.getId());
+    }
+
+    /**
+     * Gets a kerning amount given a pair of chars
+     * @param first int value
+     * @param second int value
+     * @return int amount
+     */
+    public int getKerning(int first, int second) {
+        try {
+            return kernings.get(first).get(second);
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("Cannot find a kerning with this pair: " + first + " " + second);
+        }
+    }
+
 }
