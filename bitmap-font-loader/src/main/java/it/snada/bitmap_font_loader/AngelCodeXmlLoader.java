@@ -38,7 +38,7 @@ public class AngelCodeXmlLoader {
                         font.setUnicode(parser.getAttributeValue(null, "unicode").equals("1"));
                         font.setCharset(parser.getAttributeValue(null, "charset"));
                         font.setHeightPercentage(Integer.parseInt(parser.getAttributeValue(null, "stretchH")));
-                        font.setUnicode(parser.getAttributeValue(null, "smooth").equals("1"));
+                        font.setSmooth(parser.getAttributeValue(null, "smooth").equals("1"));
                         font.setSuperSampling(Integer.parseInt(parser.getAttributeValue(null, "aa")));
 
                         String[] pads = parser.getAttributeValue(null, "padding").split(",");
