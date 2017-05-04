@@ -67,7 +67,7 @@ public class AngelCodeXmlLoader {
                                 Integer.parseInt(parser.getAttributeValue(null, "yoffset")),
                                 Integer.parseInt(parser.getAttributeValue(null, "xadvance")),
                                 Integer.parseInt(parser.getAttributeValue(null, "page")),
-                                GlyphChannelContent.valueOf(
+                                GlyphChannel.valueOf(
                                         Integer.parseInt(parser.getAttributeValue(null, "chnl"))
                                 )
                         ));

@@ -3,14 +3,19 @@ package it.snada.bitmap_font_loader;
 /**
  * Texture channel in which char image can be found
  */
-public enum GlyphChannelContent {
+public enum GlyphChannel {
     BLUE,
     GREEN,
     RED,
     ALPHA,
     ALL;
 
-    public static GlyphChannelContent valueOf(int value) {
+    /**
+     * Gets a GlyphChannel enum value from an integer number
+     * @param value int value
+     * @return GlyphChannel enum value, or null
+     */
+    public static GlyphChannel valueOf(int value) {
         if(value == 1) {
             return BLUE;
         } else if(value == 2) {

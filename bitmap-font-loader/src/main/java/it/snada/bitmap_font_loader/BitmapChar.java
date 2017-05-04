@@ -49,7 +49,7 @@ public class BitmapChar {
     /**
      * Texture channel in which char image is found
      */
-    private GlyphChannelContent channel;
+    private GlyphChannel channel;
 
     /**
      * Creates a glyph
@@ -62,9 +62,9 @@ public class BitmapChar {
      * @param yOffset int value
      * @param xAdvance int value
      * @param page int value
-     * @param channel GlyphChannelContent enum value
+     * @param channel GlyphChannel enum value
      */
-    public BitmapChar(int id, int x, int y, int width, int height, int xOffset, int yOffset, int xAdvance, int page, GlyphChannelContent channel) {
+    public BitmapChar(int id, int x, int y, int width, int height, int xOffset, int yOffset, int xAdvance, int page, GlyphChannel channel) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -223,17 +223,17 @@ public class BitmapChar {
 
     /**
      * Gets which channel contains glyph data
-     * @return GlyphChannelContent value
+     * @return GlyphChannel value
      */
-    public GlyphChannelContent getChannel() {
+    public GlyphChannel getChannel() {
         return channel;
     }
 
     /**
      * Sets which channel contains glyph data
-     * @param channel GlyphChannelContent value
+     * @param channel GlyphChannel value
      */
-    public void setChannel(GlyphChannelContent channel) {
+    public void setChannel(GlyphChannel channel) {
         this.channel = channel;
     }
 }
