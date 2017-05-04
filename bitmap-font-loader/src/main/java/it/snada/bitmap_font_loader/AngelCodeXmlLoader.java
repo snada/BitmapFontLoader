@@ -56,6 +56,17 @@ public class AngelCodeXmlLoader {
                     case "page":
                         font.insertPage(Integer.parseInt(parser.getAttributeValue(null, "id")), parser.getAttributeValue(null, "file"));
                         break;
+                    case "common":
+                        font.setLineHeight(Integer.parseInt(parser.getAttributeValue(null, "lineHeight")));
+                        font.setBase(Integer.parseInt(parser.getAttributeValue(null, "base")));
+                        font.setScaleW(Integer.parseInt(parser.getAttributeValue(null, "scaleW")));
+                        font.setScaleH(Integer.parseInt(parser.getAttributeValue(null, "scaleH")));
+                        font.setPacked(parser.getAttributeValue(null, "packed").equals("1"));
+                        font.setAlphaChannel(TextureChannelContent.valueOf(Integer.parseInt(parser.getAttributeValue(null, "alphaChnl"))));
+                        font.setRedChannel(TextureChannelContent.valueOf(Integer.parseInt(parser.getAttributeValue(null, "redChnl"))));
+                        font.setGreenChannel(TextureChannelContent.valueOf(Integer.parseInt(parser.getAttributeValue(null, "greenChnl"))));
+                        font.setBlueChannel(TextureChannelContent.valueOf(Integer.parseInt(parser.getAttributeValue(null, "blueChnl"))));
+                        break;
                     case "char":
                         font.insertChar(new BitmapChar(
                                 Integer.parseInt(parser.getAttributeValue(null, "id")),

@@ -84,6 +84,51 @@ public class BitmapFont {
     private int verticalSpacing;
 
     /**
+     * Font distance, in pixel, between each line of text
+     */
+    private int lineHeight;
+
+    /**
+     * The number of pixels from the absolute top of the line to the base of the characters
+     */
+    private int base;
+
+    /**
+     * Textures width
+     */
+    private int scaleW;
+
+    /**
+     * Textures height
+     */
+    private int scaleH;
+
+    /**
+     * Set to 1 if the monochrome characters have been packed into each of the texture channels. In this case alphaChnl describes what is stored in each channel
+     */
+    private boolean packed;
+
+    /**
+     * Texture alpha channel content
+     */
+    private TextureChannelContent alphaChannel;
+
+    /**
+     * Texture red channel content
+     */
+    private TextureChannelContent redChannel;
+
+    /**
+     * Texture green channel content
+     */
+    private TextureChannelContent greenChannel;
+
+    /**
+     * Texture blue channel content
+     */
+    private TextureChannelContent blueChannel;
+
+    /**
      * Font pages
      */
     private SparseArray<String> pages;
@@ -379,6 +424,158 @@ public class BitmapFont {
     }
 
     /**
+     * Return number of pages of this font
+     * @return int value
+     */
+    public int getPagesNumber() {
+        return pages.size();
+    }
+
+    /**
+     * Gets distance in pixels between 2 lines
+     * @return int value
+     */
+    public int getLineHeight() {
+        return lineHeight;
+    }
+
+    /**
+     * Sets distance in pixels between 2 lines
+     * @param lineHeight int value
+     */
+    public void setLineHeight(int lineHeight) {
+        this.lineHeight = lineHeight;
+    }
+
+    /**
+     * Gets the number of pixels from the absolute top of the line to the base of the characters
+     * @return int value
+     */
+    public int getBase() {
+        return base;
+    }
+
+    /**
+     * Sets the number of pixels from the absolute top of the line to the base of the characters
+     * @param base int value
+     */
+    public void setBase(int base) {
+        this.base = base;
+    }
+
+    /**
+     * Gets texture width, in pixels
+     * @return int value
+     */
+    public int getScaleW() {
+        return scaleW;
+    }
+
+    /**
+     * Sets texture width, in pixels
+     * @param scaleW int value
+     */
+    public void setScaleW(int scaleW) {
+        this.scaleW = scaleW;
+    }
+
+    /**
+     * Gets texture height, in pixels
+     * @return int value
+     */
+    public int getScaleH() {
+        return scaleH;
+    }
+
+    /**
+     * Sets texture height, in pixels
+     * @param scaleH int value
+     */
+    public void setScaleH(int scaleH) {
+        this.scaleH = scaleH;
+    }
+
+    /**
+     * Gets true if the monochrome characters have been packed into each of the texture channels
+     * @return boolean value
+     */
+    public boolean isPacked() {
+        return packed;
+    }
+
+    /**
+     * Sets true if the monochrome characters have been packed into each of the texture channels.
+     * @param packed boolean value
+     */
+    public void setPacked(boolean packed) {
+        this.packed = packed;
+    }
+
+    /**
+     * Gets the content type for the alpha channel of textures
+     * @return TextureChannelContent value
+     */
+    public TextureChannelContent getAlphaChannel() {
+        return alphaChannel;
+    }
+
+    /**
+     * Sets the content type for the alpha channel of textures
+     * @param alphaChannel TextureChannelContent value
+     */
+    public void setAlphaChannel(TextureChannelContent alphaChannel) {
+        this.alphaChannel = alphaChannel;
+    }
+
+    /**
+     * Gets the content type for the red channel of textures
+     * @return TextureChannelContent value
+     */
+    public TextureChannelContent getRedChannel() {
+        return redChannel;
+    }
+
+    /**
+     * Sets the content type for the red channel of textures
+     * @param redChannel TextureChannelContent value
+     */
+    public void setRedChannel(TextureChannelContent redChannel) {
+        this.redChannel = redChannel;
+    }
+
+    /**
+     * Gets the content type for the green channel of textures
+     * @return TextureChannelContent value
+     */
+    public TextureChannelContent getGreenChannel() {
+        return greenChannel;
+    }
+
+    /**
+     * Sets the content type for the green channel of textures
+     * @param greenChannel TextureChannelContent value
+     */
+    public void setGreenChannel(TextureChannelContent greenChannel) {
+        this.greenChannel = greenChannel;
+    }
+
+    /**
+     * Gets the content type for the blue channel of textures
+     * @return TextureChannelContent value
+     */
+    public TextureChannelContent getBlueChannel() {
+        return blueChannel;
+    }
+
+    /**
+     * Sets the content type for the blue channel of textures
+     * @param blueChannel TextureChannelContent value
+     */
+    public void setBlueChannel(TextureChannelContent blueChannel) {
+        this.blueChannel = blueChannel;
+    }
+
+    /**
      * Inserts into this font a Bitmap character
      * @param bitmapChar bitmap char
      */
@@ -467,5 +664,4 @@ public class BitmapFont {
             throw new IllegalArgumentException("Cannot find a kerning with this pair: " + first + " " + second);
         }
     }
-
 }
