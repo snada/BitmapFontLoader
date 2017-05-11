@@ -3,6 +3,7 @@ package it.snada.bitmapfontloaderapp;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.nfc.Tag;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -20,6 +21,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import it.snada.bitmap_font_loader.AngelCodeXmlLoader;
+import it.snada.bitmap_font_loader.BitmapChar;
 import it.snada.bitmap_font_loader.BitmapFont;
 
 public class MainActivity extends Activity implements GLSurfaceView.Renderer {
@@ -44,6 +46,34 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+        BitmapFont font;
+        BitmapChar chr;
+
+        float topLeftX = 0, topLeftY = 0, topRightX = 0, topRightY = 0, bottomLeftX = 0, bottomLeftY = 0, bottomRightX = 0, bottomRightY = 0;
+
+        try {
+            font = AngelCodeXmlLoader.load(getResources().openRawResource(R.raw.arial));
+            chr = font.getChar("2");
+
+            topLeftX = reverseLerp(0, font.getScaleW(), chr.getX());
+            topLeftY = reverseLerp(0, font.getScaleH(), chr.getY());
+
+            bottomLeftX = reverseLerp(0, font.getScaleW(), chr.getX());
+            bottomLeftY = reverseLerp(0, font.getScaleH(), chr.getY() + chr.getHeight());
+
+            topRightX = reverseLerp(0, font.getScaleW(), chr.getX() + chr.getWidth());
+            topRightY = reverseLerp(0, font.getScaleH(), chr.getY());
+
+            bottomRightX = reverseLerp(0, font.getScaleW(), chr.getX() + chr.getWidth());
+            bottomRightY = reverseLerp(0, font.getScaleH(), chr.getY() + chr.getHeight());
+
+            Log.i(TAG, font.toString());
+        } catch(XmlPullParserException e) {
+            Log.e(TAG, "Your xml file has an error: " + e);
+        } catch(IOException e) {
+            Log.e(TAG, "There's an error with your file: " + e);
+        }
+
         GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
         view = new float[16];
@@ -72,10 +102,10 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
             1.0f, 1.0f, 0.0f, 1.0f
         };
         float[] uvs = {
-            0.0f, 1.0f,
-            0.0f, 0.0f,
-            1.0f, 0.0f,
-            1.0f, 1.0f
+            topLeftX, topLeftY,
+            bottomLeftX, bottomLeftY,
+            bottomRightX, bottomRightY,
+            topRightX, topRightY
         };
         plane = new Plane(vertices, indices, colors, uvs);
 
@@ -85,14 +115,11 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
         texture = new Texture(bitmap);
 
         program = new ShaderProgram(readRawTextFile(R.raw.vertex_shader), readRawTextFile(R.raw.fragment_shader));
+    }
 
-        try {
-            BitmapFont font = AngelCodeXmlLoader.load(getResources().openRawResource(R.raw.arial));
-        } catch(XmlPullParserException e) {
-            Log.e(TAG, "Your xml file has an error: " + e);
-        } catch(IOException e) {
-            Log.e(TAG, "There's an error with your file: " + e);
-        }
+    //Just testin...
+    private float reverseLerp(float a, float b, float value) {
+        return (value - a) / (b - a);
     }
 
     public void onDrawFrame(GL10 unused) {
