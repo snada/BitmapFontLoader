@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import it.snada.bitmap_3d_string.Bitmap3DChar;
 import it.snada.bitmap_font_loader.AngelCodeXmlLoader;
 import it.snada.bitmap_font_loader.BitmapChar;
 import it.snada.bitmap_font_loader.BitmapFont;
@@ -47,25 +48,13 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         BitmapFont font;
-        BitmapChar chr;
+        Bitmap3DChar chr = null;
 
         float topLeftX = 0, topLeftY = 0, topRightX = 0, topRightY = 0, bottomLeftX = 0, bottomLeftY = 0, bottomRightX = 0, bottomRightY = 0;
 
         try {
             font = AngelCodeXmlLoader.load(getResources().openRawResource(R.raw.arial));
-            chr = font.getChar("2");
-
-            topLeftX = reverseLerp(0, font.getScaleW(), chr.getX());
-            topLeftY = reverseLerp(0, font.getScaleH(), chr.getY());
-
-            bottomLeftX = reverseLerp(0, font.getScaleW(), chr.getX());
-            bottomLeftY = reverseLerp(0, font.getScaleH(), chr.getY() + chr.getHeight());
-
-            topRightX = reverseLerp(0, font.getScaleW(), chr.getX() + chr.getWidth());
-            topRightY = reverseLerp(0, font.getScaleH(), chr.getY());
-
-            bottomRightX = reverseLerp(0, font.getScaleW(), chr.getX() + chr.getWidth());
-            bottomRightY = reverseLerp(0, font.getScaleH(), chr.getY() + chr.getHeight());
+            chr = new Bitmap3DChar(font, "1");
 
             Log.i(TAG, font.toString());
         } catch(XmlPullParserException e) {
@@ -102,10 +91,10 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
             1.0f, 1.0f, 0.0f, 1.0f
         };
         float[] uvs = {
-            topLeftX, topLeftY,
-            bottomLeftX, bottomLeftY,
-            bottomRightX, bottomRightY,
-            topRightX, topRightY
+            chr.getTopLeftU(), chr.getTopLeftV(),
+            chr.getBottomLeftU(), chr.getBottomLeftV(),
+            chr.getBottomRightU(), chr.getBottomRightV(),
+            chr.getTopRightU(), chr.getTopRightV()
         };
         plane = new Plane(vertices, indices, colors, uvs);
 

@@ -13,8 +13,6 @@ public class Bitmap3DChar {
 
     BitmapChar bitmapChar;
 
-    Bitmap3DString bitmap3DString;
-
     public Bitmap3DChar(BitmapFont bitmapFont, String chr) {
         this(bitmapFont, chr.charAt(0));
     }
@@ -25,8 +23,8 @@ public class Bitmap3DChar {
 
     public Bitmap3DChar(BitmapFont bitmapFont, int chr) {
         this.chr = chr;
-        this.bitmapChar = font.getChar(chr);
         this.font = bitmapFont;
+        this.bitmapChar = bitmapFont.getChar(chr);
     }
 
     public float getTopLeftU() {
