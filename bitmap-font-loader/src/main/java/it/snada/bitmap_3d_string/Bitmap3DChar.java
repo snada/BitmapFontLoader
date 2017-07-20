@@ -15,18 +15,18 @@ public class Bitmap3DChar {
 
     Bitmap3DString bitmap3DString;
 
-    public Bitmap3DChar(Bitmap3DString bitmap3DString, String chr) {
-        this(bitmap3DString, chr.charAt(0));
+    public Bitmap3DChar(BitmapFont bitmapFont, String chr) {
+        this(bitmapFont, chr.charAt(0));
     }
 
-    public Bitmap3DChar(Bitmap3DString bitmap3DString, char chr) {
-        this(bitmap3DString, (int)chr);
+    public Bitmap3DChar(BitmapFont bitmapFont, char chr) {
+        this(bitmapFont, (int)chr);
     }
 
-    public Bitmap3DChar(Bitmap3DString bitmap3DString, int chr) {
+    public Bitmap3DChar(BitmapFont bitmapFont, int chr) {
         this.chr = chr;
         this.bitmapChar = font.getChar(chr);
-        this.font = bitmap3DString.getBitmapFont();
+        this.font = bitmapFont;
     }
 
     public float getTopLeftU() {
