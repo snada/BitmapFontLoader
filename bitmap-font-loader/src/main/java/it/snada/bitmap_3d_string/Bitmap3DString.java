@@ -45,7 +45,7 @@ public class Bitmap3DString {
 
         this.chars3d = new ArrayList<>(text.length());
         for(int counter = 0; counter < text.length(); counter++) {
-            Bitmap3DChar newChar = new Bitmap3DChar(font, text.charAt(counter));
+            Bitmap3DChar newChar = new Bitmap3DChar(font, font.getChar(text.charAt(counter)));
             chars3d.add(newChar);
         }
     }

@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
         try {
             font = AngelCodeXmlLoader.load(getResources().openRawResource(R.raw.arial));
-            chr = new Bitmap3DChar(font, "1");
+            chr = new Bitmap3DChar(font, font.getChar("1"));
 
             Log.i(TAG, font.toString());
         } catch(XmlPullParserException e) {

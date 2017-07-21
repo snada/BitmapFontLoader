@@ -7,24 +7,13 @@ import it.snada.bitmap_font_loader.BitmapFont;
  * Helper class to handle 3d bitmap chars
  */
 public class Bitmap3DChar {
-    int chr;
-
     BitmapFont font;
 
     BitmapChar bitmapChar;
 
-    public Bitmap3DChar(BitmapFont bitmapFont, String chr) {
-        this(bitmapFont, chr.charAt(0));
-    }
-
-    public Bitmap3DChar(BitmapFont bitmapFont, char chr) {
-        this(bitmapFont, (int)chr);
-    }
-
-    public Bitmap3DChar(BitmapFont bitmapFont, int chr) {
-        this.chr = chr;
+    public Bitmap3DChar(BitmapFont bitmapFont, BitmapChar bitmapChar) {
         this.font = bitmapFont;
-        this.bitmapChar = bitmapFont.getChar(chr);
+        this.bitmapChar = bitmapChar;
     }
 
     public float getTopLeftU() {
