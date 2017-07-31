@@ -19,6 +19,9 @@ public class Plane {
     private float[] rotation;
     private float[] rotationMatrix;
 
+    private float[] scale;
+    private float[] scaleMatrix;
+
     public Plane(float[] vertices, short[] drawOrder, float[] colors, float[] uvs) {
         if(vertices.length != 12) {
             throw new RuntimeException("You must provide 12 coordinates for a plane to be constructed");
@@ -67,6 +70,13 @@ public class Plane {
         rotation = new float[3];
         rotationMatrix = new float[16];
         Matrix.setIdentityM(rotationMatrix, 0);
+
+        scale = new float[3];
+        scale[0] = 1;
+        scale[1] = 1;
+        scale[2] = 1;
+        scaleMatrix = new float[16];
+        Matrix.setIdentityM(scaleMatrix, 0);
     }
 
     public void setRotationX(float amount) {
@@ -93,6 +103,18 @@ public class Plane {
         position[2] = amount;
     }
 
+    public void setScaleX(float amount) {
+        scale[0] = amount;
+    }
+
+    public void setScaleY(float amount) {
+        scale[1] = amount;
+    }
+
+    public void setScaleZ(float amount) {
+        scale[2] = amount;
+    }
+
     public float getPositionX() {
         return position[0];
     }
@@ -117,6 +139,18 @@ public class Plane {
         return rotation[2];
     }
 
+    public float getScaleX() {
+        return scale[0];
+    }
+
+    public float getScaleY() {
+        return scale[1];
+    }
+
+    public float getScaleZ() {
+        return scale[2];
+    }
+
     public float[] getModelMatrix() {
         //Painful Android bug. Could be done with:
         //Matrix.setRotateEulerM(rotationMatrix, 0, rotation[0], rotation[1], rotation[2]);
@@ -125,10 +159,18 @@ public class Plane {
         Matrix.rotateM(rotationMatrix, 0, rotation[0], 1.0f, 0.0f, 0.0f);
         Matrix.rotateM(rotationMatrix, 0, rotation[1], 0.0f, 1.0f, 0.0f);
         Matrix.rotateM(rotationMatrix, 0, rotation[2], 0.0f, 0.0f, 1.0f);
+
         Matrix.translateM(positionMatrix, 0, position[0], position[1], position[2]);
 
+        Matrix.setIdentityM(scaleMatrix, 0);
+        Matrix.scaleM(scaleMatrix, 0, scale[0], scale[1], scale[2]);
+
+        float[] tmpMatrix = new float[16];
+        Matrix.multiplyMM(tmpMatrix, 0, rotationMatrix, 0, scaleMatrix, 0);
+
         float[] modelMatrix = new float[16];
-        Matrix.multiplyMM(modelMatrix, 0, positionMatrix, 0, rotationMatrix, 0);
+        Matrix.multiplyMM(modelMatrix, 0, positionMatrix, 0, tmpMatrix, 0);
+
         return modelMatrix;
     }
 }
