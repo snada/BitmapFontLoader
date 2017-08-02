@@ -21,6 +21,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import it.snada.bitmap_3d_string.Bitmap3DChar;
+import it.snada.bitmap_3d_string.Bitmap3DString;
 import it.snada.bitmap_font_loader.AngelCodeXmlLoader;
 import it.snada.bitmap_font_loader.BitmapChar;
 import it.snada.bitmap_font_loader.BitmapFont;
@@ -54,7 +55,9 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
         try {
             font = AngelCodeXmlLoader.load(getResources().openRawResource(R.raw.arial));
-            chr = new Bitmap3DChar(font, font.getChar("1"));
+            chr = new Bitmap3DChar(font, font.getChar("1"), 0.0f, 0.0f, 0.0f, 1.0f);
+
+            Bitmap3DString s = new Bitmap3DString(font, "AV");
 
             Log.i(TAG, font.toString());
         } catch(XmlPullParserException e) {
@@ -67,7 +70,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
         view = new float[16];
         Matrix.setLookAtM(view, 0,
-            0.0f, 0.0f, 1.5f,
+            0.0f, 0.0f, 3.5f,
             0.0f, 0.0f, 0.0f,
             0.0f, 1.0f, 0.0f
         );
@@ -114,7 +117,9 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 unused) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        plane.setRotationY(plane.getRotationY() + 0.5f);
+        //plane.setRotationY(plane.getRotationY() + 0.5f);
+
+
 
         GLES20.glUseProgram(program.getId());
 

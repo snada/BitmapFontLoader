@@ -11,9 +11,20 @@ public class Bitmap3DChar {
 
     BitmapChar bitmapChar;
 
-    public Bitmap3DChar(BitmapFont bitmapFont, BitmapChar bitmapChar) {
+    float scale;
+
+    float[] position;
+
+    public Bitmap3DChar(BitmapFont bitmapFont, BitmapChar bitmapChar, float cursorPosition, float stringYPosition, float stringZPosition, float scale) {
         this.font = bitmapFont;
         this.bitmapChar = bitmapChar;
+
+        this.scale = scale;
+
+        this.position = new float[3];
+        this.position[0] = cursorPosition + bitmapChar.getXOffset();
+        this.position[1] = stringYPosition - bitmapChar.getYOffset();
+        this.position[2] = stringZPosition;
     }
 
     public float getTopLeftU() {
@@ -50,5 +61,29 @@ public class Bitmap3DChar {
 
     private static float reverseLerp(float a, float b, float value) {
         return (value - a) / (b - a);
+    }
+
+    public void setPositionX(float amount) {
+        this.position[0] = amount;
+    }
+
+    public void setPositionY(float amount) {
+        this.position[1] = amount;
+    }
+
+    public void setPositionZ(float amount) {
+        this.position[2] = amount;
+    }
+
+    public float getPositionX() {
+        return position[0];
+    }
+
+    public float getPositionY() {
+        return position[1];
+    }
+
+    public float getPositionZ() {
+        return position[2];
     }
 }
