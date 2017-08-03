@@ -39,19 +39,15 @@ public class Bitmap3DString extends Bitmap3DObject {
 
     public void setText(String text) {
         this.text = text;
-        this.update();
-    }
-
-    protected void update() {
         this.chars3d = new ArrayList<>(text.length());
 
         int cursor = 0;
         for(int counter = 0; counter < text.length(); counter++) {
             BitmapChar chr = font.getChar(text.charAt(counter));
             Bitmap3DChar newChar = new Bitmap3DChar(
-                this,
-                chr,
-                cursor
+                    this,
+                    chr,
+                    cursor
             );
             chars3d.add(newChar);
 
