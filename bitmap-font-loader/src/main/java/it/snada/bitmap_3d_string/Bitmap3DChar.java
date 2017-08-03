@@ -56,8 +56,6 @@ public class Bitmap3DChar extends Bitmap3DObject{
      * @return a float array representing a model matrix
      */
     public float[] getModelMatrix() {
-        float[] stringModelMatrix = this.string3D.getModelMatrix();
-
         float[] positionMatrix = new float[16];
         float[] rotationMatrix = new float[16];
         float[] scaleMatrix = new float[16];
@@ -80,11 +78,19 @@ public class Bitmap3DChar extends Bitmap3DObject{
         Matrix.rotateM(rotationMatrix, 0, this.getRotationY(), 0.0f, 1.0f, 0.0f);
         Matrix.rotateM(rotationMatrix, 0, this.getRotationZ(), 0.0f, 0.0f, 1.0f);
 
+//        Matrix.translateM(
+//            positionMatrix, 0,
+//            this.string3D.getPositionX() + (this.getPositionX() * this.string3D.getScaleX()),
+//            this.string3D.getPositionY() + (this.getPositionY() * this.string3D.getScaleY()),
+//            this.string3D.getPositionZ() + (this.getPositionZ() * this.string3D.getScaleZ())
+//        );
+
+
         Matrix.translateM(
             positionMatrix, 0,
-            this.string3D.getPositionX() + (this.getPositionX() * this.string3D.getScaleX()),
-            this.string3D.getPositionY() + (this.getPositionY() * this.string3D.getScaleY()),
-            this.string3D.getPositionZ() + (this.getPositionZ() * this.string3D.getScaleZ())
+            this.string3D.getPositionX() + (this.getPositionX()),
+            this.string3D.getPositionY() + (this.getPositionY()),
+            this.string3D.getPositionZ() + (this.getPositionZ())
         );
 
         float[] tmpMatrix1 = new float[16];
@@ -93,10 +99,16 @@ public class Bitmap3DChar extends Bitmap3DObject{
         float[] tmpMatrix2 = new float[16];
         Matrix.multiplyMM(tmpMatrix2, 0, positionMatrix, 0, tmpMatrix1, 0);
 
-        //float[] modelMatrix = new float[16];
-        //Matrix.multiplyMM(modelMatrix, 0, stringModelMatrix, 0, tmpMatrix2, 0);
+        float[] tmpMatrix3 = new float[16];
+        Matrix.multiplyMM(tmpMatrix3, 0, this.string3D.getScaleMatrix(), 0, tmpMatrix2, 0);
 
-        return tmpMatrix2;
+        float[] tmpMatrix4 = new float[16];
+        Matrix.multiplyMM(tmpMatrix4, 0, this.string3D.getRotationMatrix(), 0, tmpMatrix3, 0);
+
+        float[] modelMatrix = new float[16];
+        Matrix.multiplyMM(modelMatrix, 0, this.string3D.getTranslationMatrix(), 0, tmpMatrix4, 0);
+
+        return modelMatrix;
     }
 
     public float getTopLeftU() {

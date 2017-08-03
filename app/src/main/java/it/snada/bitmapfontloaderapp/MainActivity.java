@@ -36,6 +36,8 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     private float[] view;
     private float[] projection;
 
+    private float time = 0.0f;
+
     BitmapFont font;
     Bitmap3DString string;
     Bitmap3DGeometry geometry;
@@ -55,10 +57,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         try {
             font = AngelCodeXmlLoader.load(getResources().openRawResource(R.raw.arial));
-            string = new Bitmap3DString(font, "Hello");
-            string.setScaleX(1.0f);
-            string.setScaleY(1.0f);
-            string.setScaleZ(1.0f);
+            string = new Bitmap3DString(font, "Hello!");
 
             Log.i(TAG, font.toString());
         } catch(XmlPullParserException e) {
@@ -74,7 +73,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
         view = new float[16];
         Matrix.setLookAtM(view, 0,
-            0.0f, 0.0f, 3.5f,
+            0.0f, 0.0f, 99.0f,
             0.0f, 0.0f, 0.0f,
             0.0f, 1.0f, 0.0f
         );
@@ -95,8 +94,14 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
         GLES20.glUseProgram(program.getId());
 
+        time += 0.01f;
+
         for (Bitmap3DChar chr : string.get3dChars()) {
-            string.setScaleX(2);
+            string.setScaleX((float)Math.abs(Math.sin(time)));
+            string.setScaleY((float)Math.abs(Math.sin(time)));
+            string.setScaleZ((float)Math.abs(Math.sin(time)));
+
+            string.setRotationY(time * 500);
 
             int positionHandle = GLES20.glGetAttribLocation(program.getId(), "vPosition");
             GLES20.glEnableVertexAttribArray(positionHandle);
@@ -113,7 +118,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
             //MODEL MATRIX HERE
 
             int modelMatrixHandle = GLES20.glGetUniformLocation(program.getId(), "model");
-            GLES20.glUniformMatrix4fv(modelMatrixHandle, 1, false, string.getModelMatrix(), 0);
+            GLES20.glUniformMatrix4fv(modelMatrixHandle, 1, false, chr.getModelMatrix(), 0);
 
             int viewMatrixHandle = GLES20.glGetUniformLocation(program.getId(), "view");
             GLES20.glUniformMatrix4fv(viewMatrixHandle, 1, false, view, 0);
@@ -139,7 +144,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
         float ratio = (float)width/(float)height;
 
-        Matrix.perspectiveM(projection, 0, 45.0f, ratio, 0.1f, 10.0f);
+        Matrix.perspectiveM(projection, 0, 45.0f, ratio, 0.1f, 1000.0f);
     }
 
     /**
