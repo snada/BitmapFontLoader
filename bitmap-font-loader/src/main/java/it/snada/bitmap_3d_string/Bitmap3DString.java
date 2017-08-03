@@ -1,5 +1,7 @@
 package it.snada.bitmap_3d_string;
 
+import android.opengl.Matrix;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,43 +11,26 @@ import it.snada.bitmap_font_loader.BitmapFont;
 /**
  * Helper class to handle 3d bitmap fonts
  */
-public class Bitmap3DString {
+public class Bitmap3DString extends Bitmap3DObject {
     private BitmapFont font;
 
     private String text;
 
-    private float scale;
-
     private List<Bitmap3DChar> chars3d;
 
-    float[] position;
-
     public Bitmap3DString(BitmapFont font, String text) {
-        this(font, text, 0.0f, 0.0f, 0.0f);
+        this(font, text, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    public Bitmap3DString(BitmapFont font, String text, float xPosition, float yPosition, float zPosition) {
+    public Bitmap3DString(BitmapFont font, String text, float xPosition, float yPosition, float zPosition, float xRotation, float yRotation, float zRotation, float xScale, float yScale, float zScale) {
+        super(xPosition, yPosition, zPosition, xRotation, yRotation, zRotation, xScale, yScale, zScale);
+
         this.font = font;
-        this.scale = 1.0f;
-
-        this.position = new float[3];
-        this.position[0] = xPosition;
-        this.position[1] = yPosition;
-        this.position[2] = zPosition;
-
         this.setText(text);
     }
 
     public BitmapFont getBitmapFont() {
         return this.font;
-    }
-
-    public float getScale() {
-        return scale;
-    }
-
-    public void setScale(float scale) {
-        this.scale = scale;
     }
 
     public String getText() {
@@ -54,19 +39,19 @@ public class Bitmap3DString {
 
     public void setText(String text) {
         this.text = text;
+        this.update();
+    }
 
+    protected void update() {
         this.chars3d = new ArrayList<>(text.length());
 
-        float cursor = this.getPositionX();
+        int cursor = 0;
         for(int counter = 0; counter < text.length(); counter++) {
             BitmapChar chr = font.getChar(text.charAt(counter));
             Bitmap3DChar newChar = new Bitmap3DChar(
-                    this.font,
-                    chr,
-                    cursor,
-                    this.getPositionY(),
-                    this.getPositionZ(),
-                    this.getScale()
+                this,
+                chr,
+                cursor
             );
             chars3d.add(newChar);
 
@@ -87,27 +72,33 @@ public class Bitmap3DString {
         return this.chars3d;
     }
 
-    public void setPositionX(float amount) {
-        this.position[0] = amount;
-    }
+    public float[] getModelMatrix() {
+        //Painful Android bug. Could be done with:
+        //Matrix.setRotateEulerM(rotationMatrix, 0, rotation[0], rotation[1], rotation[2]);
+        //But returns a wrong matrix on Y axis
+        float[] positionMatrix = new float[16];
+        float[] rotationMatrix = new float[16];
+        float[] scaleMatrix = new float[16];
+        Matrix.setIdentityM(positionMatrix, 0);
+        Matrix.setIdentityM(rotationMatrix, 0);
+        Matrix.setIdentityM(scaleMatrix, 0);
 
-    public void setPositionY(float amount) {
-        this.position[1] = amount;
-    }
+        Matrix.setIdentityM(rotationMatrix, 0);
+        Matrix.rotateM(rotationMatrix, 0, this.getRotationX(), 1.0f, 0.0f, 0.0f);
+        Matrix.rotateM(rotationMatrix, 0, this.getRotationY(), 0.0f, 1.0f, 0.0f);
+        Matrix.rotateM(rotationMatrix, 0, this.getRotationZ(), 0.0f, 0.0f, 1.0f);
 
-    public void setPositionZ(float amount) {
-        this.position[2] = amount;
-    }
+        Matrix.translateM(positionMatrix, 0, this.getPositionX(), this.getPositionY(), this.getPositionZ());
 
-    public float getPositionX() {
-        return position[0];
-    }
+        Matrix.setIdentityM(scaleMatrix, 0);
+        Matrix.scaleM(scaleMatrix, 0, this.getScaleX(), this.getScaleY(), this.getScaleZ());
 
-    public float getPositionY() {
-        return position[1];
-    }
+        float[] tmpMatrix = new float[16];
+        Matrix.multiplyMM(tmpMatrix, 0, rotationMatrix, 0, scaleMatrix, 0);
 
-    public float getPositionZ() {
-        return position[2];
+        float[] modelMatrix = new float[16];
+        Matrix.multiplyMM(modelMatrix, 0, positionMatrix, 0, tmpMatrix, 0);
+
+        return modelMatrix;
     }
 }

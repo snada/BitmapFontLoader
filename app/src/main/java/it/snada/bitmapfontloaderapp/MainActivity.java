@@ -21,6 +21,8 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import it.snada.bitmap_3d_string.Bitmap3DChar;
+import it.snada.bitmap_3d_string.Bitmap3DColor;
+import it.snada.bitmap_3d_string.Bitmap3DGeometry;
 import it.snada.bitmap_3d_string.Bitmap3DString;
 import it.snada.bitmap_font_loader.AngelCodeXmlLoader;
 import it.snada.bitmap_font_loader.BitmapChar;
@@ -34,7 +36,10 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     private float[] view;
     private float[] projection;
 
-    Plane plane;
+    BitmapFont font;
+    Bitmap3DString string;
+    Bitmap3DGeometry geometry;
+    Bitmap3DColor color;
 
     Texture texture;
 
@@ -48,16 +53,12 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
-        BitmapFont font;
-        Bitmap3DChar chr = null;
-
-        float topLeftX = 0, topLeftY = 0, topRightX = 0, topRightY = 0, bottomLeftX = 0, bottomLeftY = 0, bottomRightX = 0, bottomRightY = 0;
-
         try {
             font = AngelCodeXmlLoader.load(getResources().openRawResource(R.raw.arial));
-            chr = new Bitmap3DChar(font, font.getChar("1"), 0.0f, 0.0f, 0.0f, 1.0f);
-
-            Bitmap3DString s = new Bitmap3DString(font, "AV");
+            string = new Bitmap3DString(font, "Hello");
+            string.setScaleX(1.0f);
+            string.setScaleY(1.0f);
+            string.setScaleZ(1.0f);
 
             Log.i(TAG, font.toString());
         } catch(XmlPullParserException e) {
@@ -65,6 +66,9 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
         } catch(IOException e) {
             Log.e(TAG, "There's an error with your file: " + e);
         }
+
+        color = new Bitmap3DColor(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f);
+        geometry = Bitmap3DGeometry.getInstance();
 
         GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
@@ -78,29 +82,6 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
         projection = new float[16];
         Matrix.setIdentityM(projection, 0);
 
-        float[] vertices = {
-            -0.5f, 0.5f, 0.0f, // top left
-            -0.5f, -0.5f, 0.0f, // bottom left
-            0.5f, -0.5f, 0.0f, // bottom right
-            0.5f,0.5f, 0.0f // top right
-        };
-        short[] indices = {
-            0, 1, 2, 0, 2, 3
-        };
-        float[] colors = {
-            1.0f, 0.0f, 0.0f, 1.0f,
-            0.0f, 1.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, 0.0f, 1.0f
-        };
-        float[] uvs = {
-            chr.getTopLeftU(), chr.getTopLeftV(),
-            chr.getBottomLeftU(), chr.getBottomLeftV(),
-            chr.getBottomRightU(), chr.getBottomRightV(),
-            chr.getTopRightU(), chr.getTopRightV()
-        };
-        plane = new Plane(vertices, indices, colors, uvs);
-
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
         Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.arial, options);
@@ -109,51 +90,48 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
         program = new ShaderProgram(readRawTextFile(R.raw.vertex_shader), readRawTextFile(R.raw.fragment_shader));
     }
 
-    //Just testin...
-    private float reverseLerp(float a, float b, float value) {
-        return (value - a) / (b - a);
-    }
-
     public void onDrawFrame(GL10 unused) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        //plane.setRotationY(plane.getRotationY() + 0.5f);
-
-
-
         GLES20.glUseProgram(program.getId());
 
-        int positionHandle = GLES20.glGetAttribLocation(program.getId(), "vPosition");
-        GLES20.glEnableVertexAttribArray(positionHandle);
-        GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 3 * 4, plane.vertexBuffer);
+        for (Bitmap3DChar chr : string.get3dChars()) {
+            string.setScaleX(2);
 
-        int colorHandle = GLES20.glGetAttribLocation(program.getId(), "vColor");
-        GLES20.glEnableVertexAttribArray(colorHandle);
-        GLES20.glVertexAttribPointer(colorHandle, 4, GLES20.GL_FLOAT, false, 4 * 4, plane.colorBuffer);
+            int positionHandle = GLES20.glGetAttribLocation(program.getId(), "vPosition");
+            GLES20.glEnableVertexAttribArray(positionHandle);
+            GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 3 * 4, geometry.getVertexBuffer());
 
-        int uvHandle = GLES20.glGetAttribLocation(program.getId(), "vUv");
-        GLES20.glEnableVertexAttribArray(uvHandle);
-        GLES20.glVertexAttribPointer(uvHandle, 2, GLES20.GL_FLOAT, false, 2 * 4, plane.uvBuffer);
+            int colorHandle = GLES20.glGetAttribLocation(program.getId(), "vColor");
+            GLES20.glEnableVertexAttribArray(colorHandle);
+            GLES20.glVertexAttribPointer(colorHandle, 4, GLES20.GL_FLOAT, false, 4 * 4, color.getColorBuffer());
 
-        int modelMatrixHandle = GLES20.glGetUniformLocation(program.getId(), "model");
-        GLES20.glUniformMatrix4fv(modelMatrixHandle, 1, false, plane.getModelMatrix(), 0);
+            int uvHandle = GLES20.glGetAttribLocation(program.getId(), "vUv");
+            GLES20.glEnableVertexAttribArray(uvHandle);
+            GLES20.glVertexAttribPointer(uvHandle, 2, GLES20.GL_FLOAT, false, 2 * 4, chr.getUvBuffer());
 
-        int viewMatrixHandle = GLES20.glGetUniformLocation(program.getId(), "view");
-        GLES20.glUniformMatrix4fv(viewMatrixHandle, 1, false, view, 0);
+            //MODEL MATRIX HERE
 
-        int projectionMatrixHandle = GLES20.glGetUniformLocation(program.getId(), "projection");
-        GLES20.glUniformMatrix4fv(projectionMatrixHandle, 1, false, projection, 0);
+            int modelMatrixHandle = GLES20.glGetUniformLocation(program.getId(), "model");
+            GLES20.glUniformMatrix4fv(modelMatrixHandle, 1, false, string.getModelMatrix(), 0);
 
-        int textureUniformHandle = GLES20.glGetUniformLocation(program.getId(), "texture");
+            int viewMatrixHandle = GLES20.glGetUniformLocation(program.getId(), "view");
+            GLES20.glUniformMatrix4fv(viewMatrixHandle, 1, false, view, 0);
 
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.getId());
+            int projectionMatrixHandle = GLES20.glGetUniformLocation(program.getId(), "projection");
+            GLES20.glUniformMatrix4fv(projectionMatrixHandle, 1, false, projection, 0);
 
-        GLES20.glUniform1i(textureUniformHandle, 0);
+            int textureUniformHandle = GLES20.glGetUniformLocation(program.getId(), "texture");
 
-        GLES20.glDrawElements(GLES20.GL_TRIANGLE_STRIP, 6, GLES20.GL_UNSIGNED_SHORT, plane.indexBuffer);
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.getId());
 
-        GLES20.glDisableVertexAttribArray(positionHandle);
+            GLES20.glUniform1i(textureUniformHandle, 0);
+
+            GLES20.glDrawElements(GLES20.GL_TRIANGLE_STRIP, 6, GLES20.GL_UNSIGNED_SHORT, geometry.getIndexBuffer());
+
+            GLES20.glDisableVertexAttribArray(positionHandle);
+        }
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
