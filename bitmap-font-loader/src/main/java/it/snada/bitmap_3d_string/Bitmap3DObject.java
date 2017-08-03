@@ -1,10 +1,12 @@
 package it.snada.bitmap_3d_string;
 
+import android.opengl.Matrix;
+
 /**
  * Common class for object in a 3d space, containing position, rotation and scale value
  */
 public abstract class Bitmap3DObject {
-    float[] position, rotation, scale;
+    float[] position, rotation, scale, translationMatrix, rotationMatrix, scaleMatrix;
 
     public Bitmap3DObject() {
         this(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
@@ -25,7 +27,21 @@ public abstract class Bitmap3DObject {
         this.scale[0] = xScale;
         this.scale[1] = yScale;
         this.scale[2] = zScale;
+
+        this.translationMatrix = new float[16];
+        this.rotationMatrix = new float[16];
+        this.scaleMatrix = new float[16];
+
+        Matrix.setIdentityM(translationMatrix, 0);
+        Matrix.setIdentityM(rotationMatrix, 0);
+        Matrix.setIdentityM(scaleMatrix, 0);
     }
+
+    public abstract float[] getTranslationMatrix();
+
+    public abstract float[] getRotationMatrix();
+
+    public abstract float[] getScaleMatrix();
 
     public abstract float[] getModelMatrix();
 

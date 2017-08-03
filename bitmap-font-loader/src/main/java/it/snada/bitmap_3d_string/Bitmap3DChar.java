@@ -51,62 +51,58 @@ public class Bitmap3DChar extends Bitmap3DObject{
         return this.uvBuffer;
     }
 
+    public float[] getTranslationMatrix() {
+        Matrix.setIdentityM(this.translationMatrix, 0);
+
+        //Painful Android bug. Could be done with:
+        //Matrix.setRotateEulerM(rotationMatrix, 0, rotation[0], rotation[1], rotation[2]);
+        //But returns a wrong matrix on Y axis
+        Matrix.translateM(
+            this.translationMatrix, 0,
+            this.string3D.getPositionX() + (this.getPositionX()),
+            this.string3D.getPositionY() + (this.getPositionY()),
+            this.string3D.getPositionZ() + (this.getPositionZ())
+        );
+        return this.translationMatrix;
+    }
+
+    public float[] getRotationMatrix() {
+        Matrix.setIdentityM(this.rotationMatrix, 0);
+
+        Matrix.rotateM(this.rotationMatrix, 0, this.getRotationX(), 1.0f, 0.0f, 0.0f);
+        Matrix.rotateM(this.rotationMatrix, 0, this.getRotationY(), 0.0f, 1.0f, 0.0f);
+        Matrix.rotateM(this.rotationMatrix, 0, this.getRotationZ(), 0.0f, 0.0f, 1.0f);
+
+        return this.rotationMatrix;
+    }
+
+    public float[] getScaleMatrix() {
+        Matrix.setIdentityM(scaleMatrix, 0);
+
+        Matrix.scaleM(
+                scaleMatrix,
+                0,
+                (this.bitmapChar.getWidth() * this.getScaleX()),
+                (this.bitmapChar.getHeight() * this.getScaleY()),
+                this.getScaleZ()
+        );
+
+        return this.scaleMatrix;
+    }
+
     /**
      * Returns a model matrix to transform a 1.0f x 1.0f geometry centered on it's top left corner ready to be drawn as part of a 3d string on screen.
      * @return a float array representing a model matrix
      */
     public float[] getModelMatrix() {
-        float[] positionMatrix = new float[16];
-        float[] rotationMatrix = new float[16];
-        float[] scaleMatrix = new float[16];
-        Matrix.setIdentityM(positionMatrix, 0);
-        Matrix.setIdentityM(rotationMatrix, 0);
-        Matrix.setIdentityM(scaleMatrix, 0);
-
-        Matrix.scaleM(
-            scaleMatrix,
-            0,
-            (this.bitmapChar.getWidth() * this.getScaleX()),
-            (this.bitmapChar.getHeight() * this.getScaleY()),
-            this.getScaleZ()
-        );
-
-        //Painful Android bug. Could be done with:
-        //Matrix.setRotateEulerM(rotationMatrix, 0, rotation[0], rotation[1], rotation[2]);
-        //But returns a wrong matrix on Y axis
-        Matrix.rotateM(rotationMatrix, 0, this.getRotationX(), 1.0f, 0.0f, 0.0f);
-        Matrix.rotateM(rotationMatrix, 0, this.getRotationY(), 0.0f, 1.0f, 0.0f);
-        Matrix.rotateM(rotationMatrix, 0, this.getRotationZ(), 0.0f, 0.0f, 1.0f);
-
-//        Matrix.translateM(
-//            positionMatrix, 0,
-//            this.string3D.getPositionX() + (this.getPositionX() * this.string3D.getScaleX()),
-//            this.string3D.getPositionY() + (this.getPositionY() * this.string3D.getScaleY()),
-//            this.string3D.getPositionZ() + (this.getPositionZ() * this.string3D.getScaleZ())
-//        );
-
-
-        Matrix.translateM(
-            positionMatrix, 0,
-            this.string3D.getPositionX() + (this.getPositionX()),
-            this.string3D.getPositionY() + (this.getPositionY()),
-            this.string3D.getPositionZ() + (this.getPositionZ())
-        );
-
         float[] tmpMatrix1 = new float[16];
-        Matrix.multiplyMM(tmpMatrix1, 0, rotationMatrix, 0, scaleMatrix, 0);
+        Matrix.multiplyMM(tmpMatrix1, 0, this.getRotationMatrix(), 0, this.getScaleMatrix(), 0);
 
         float[] tmpMatrix2 = new float[16];
-        Matrix.multiplyMM(tmpMatrix2, 0, positionMatrix, 0, tmpMatrix1, 0);
-
-        float[] tmpMatrix3 = new float[16];
-        Matrix.multiplyMM(tmpMatrix3, 0, this.string3D.getScaleMatrix(), 0, tmpMatrix2, 0);
-
-        float[] tmpMatrix4 = new float[16];
-        Matrix.multiplyMM(tmpMatrix4, 0, this.string3D.getRotationMatrix(), 0, tmpMatrix3, 0);
+        Matrix.multiplyMM(tmpMatrix2, 0, this.getTranslationMatrix(), 0, tmpMatrix1, 0);
 
         float[] modelMatrix = new float[16];
-        Matrix.multiplyMM(modelMatrix, 0, this.string3D.getTranslationMatrix(), 0, tmpMatrix4, 0);
+        Matrix.multiplyMM(modelMatrix, 0, this.string3D.getModelMatrix(), 0, tmpMatrix2, 0);
 
         return modelMatrix;
     }

@@ -73,35 +73,32 @@ public class Bitmap3DString extends Bitmap3DObject {
     }
 
     public float[] getScaleMatrix() {
-        float[] scaleMatrix = new float[16];
-        Matrix.setIdentityM(scaleMatrix, 0);
+        Matrix.setIdentityM(this.scaleMatrix, 0);
 
-        Matrix.scaleM(scaleMatrix, 0, this.getScaleX(), this.getScaleY(), this.getScaleZ());
+        Matrix.scaleM(this.scaleMatrix, 0, this.getScaleX(), this.getScaleY(), this.getScaleZ());
 
-        return scaleMatrix;
+        return this.scaleMatrix;
     }
 
     public float[] getRotationMatrix() {
-        float[] rotationMatrix = new float[16];
-        Matrix.setIdentityM(rotationMatrix, 0);
+        Matrix.setIdentityM(this.rotationMatrix, 0);
 
         //Painful Android bug. Could be done with:
         //Matrix.setRotateEulerM(rotationMatrix, 0, rotation[0], rotation[1], rotation[2]);
         //But returns a wrong matrix on Y axis
-        Matrix.rotateM(rotationMatrix, 0, this.getRotationX(), 1.0f, 0.0f, 0.0f);
-        Matrix.rotateM(rotationMatrix, 0, this.getRotationY(), 0.0f, 1.0f, 0.0f);
-        Matrix.rotateM(rotationMatrix, 0, this.getRotationZ(), 0.0f, 0.0f, 1.0f);
+        Matrix.rotateM(this.rotationMatrix, 0, this.getRotationX(), 1.0f, 0.0f, 0.0f);
+        Matrix.rotateM(this.rotationMatrix, 0, this.getRotationY(), 0.0f, 1.0f, 0.0f);
+        Matrix.rotateM(this.rotationMatrix, 0, this.getRotationZ(), 0.0f, 0.0f, 1.0f);
 
-        return rotationMatrix;
+        return this.rotationMatrix;
     }
 
     public float[] getTranslationMatrix() {
-        float[] translationMatrix = new float[16];
-        Matrix.setIdentityM(translationMatrix, 0);
+        Matrix.setIdentityM(this.translationMatrix, 0);
 
-        Matrix.translateM(translationMatrix, 0, this.getPositionX(), this.getPositionY(), this.getPositionZ());
+        Matrix.translateM(this.translationMatrix, 0, this.getPositionX(), this.getPositionY(), this.getPositionZ());
 
-        return translationMatrix;
+        return this.translationMatrix;
     }
 
     public float[] getModelMatrix() {
