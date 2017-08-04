@@ -20,6 +20,7 @@ public class Bitmap3DString extends Bitmap3DObject {
 
     private int width = 0;
 
+    private boolean centered = false;
     private float[] centerMatrix;
 
     public Bitmap3DString(BitmapFont font, String text) {
@@ -113,7 +114,6 @@ public class Bitmap3DString extends Bitmap3DObject {
         float[] tmpMatrix = new float[16];
         Matrix.multiplyMM(tmpMatrix, 0, scaleMatrix, 0, this.centerMatrix, 0);
 
-
         float[] tmp1Matrix = new float[16];
         Matrix.multiplyMM(tmp1Matrix, 0, rotationMatrix, 0, tmpMatrix, 0);
 
@@ -129,12 +129,10 @@ public class Bitmap3DString extends Bitmap3DObject {
         } else {
             Matrix.setIdentityM(this.centerMatrix, 0);
         }
+        centered = value;
     }
 
     public boolean getCentered() {
-        //This really should be refactored with a boolean value
-        float[] tmp = new float[16];
-        Matrix.setIdentityM(tmp, 0);
-        return !this.centerMatrix.equals(tmp);
+        return centered;
     }
 }
