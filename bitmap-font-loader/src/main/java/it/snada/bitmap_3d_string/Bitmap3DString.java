@@ -18,6 +18,10 @@ public class Bitmap3DString extends Bitmap3DObject {
 
     private List<Bitmap3DChar> chars3d;
 
+    private int width = 0;
+
+    private float[] centerMatrix;
+
     public Bitmap3DString(BitmapFont font, String text) {
         this(font, text, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -27,6 +31,9 @@ public class Bitmap3DString extends Bitmap3DObject {
 
         this.font = font;
         this.setText(text);
+
+        this.centerMatrix = new float[16];
+        Matrix.setIdentityM(this.centerMatrix, 0);
     }
 
     public BitmapFont getBitmapFont() {
@@ -62,6 +69,7 @@ public class Bitmap3DString extends Bitmap3DObject {
 
             cursor += (chr.getXAdvance() + kerningValue);
         }
+        this.width = cursor;
     }
 
     public List<Bitmap3DChar> get3dChars() {
@@ -103,11 +111,30 @@ public class Bitmap3DString extends Bitmap3DObject {
         float[] scaleMatrix = this.getScaleMatrix();
 
         float[] tmpMatrix = new float[16];
-        Matrix.multiplyMM(tmpMatrix, 0, rotationMatrix, 0, scaleMatrix, 0);
+        Matrix.multiplyMM(tmpMatrix, 0, scaleMatrix, 0, this.centerMatrix, 0);
+
+
+        float[] tmp1Matrix = new float[16];
+        Matrix.multiplyMM(tmp1Matrix, 0, rotationMatrix, 0, tmpMatrix, 0);
 
         float[] modelMatrix = new float[16];
-        Matrix.multiplyMM(modelMatrix, 0, translationMatrix, 0, tmpMatrix, 0);
+        Matrix.multiplyMM(modelMatrix, 0, translationMatrix, 0, tmp1Matrix, 0);
 
         return modelMatrix;
+    }
+
+    public void setCentered(boolean value) {
+        if(value) {
+            Matrix.translateM(this.centerMatrix, 0, -(this.width / 2), this.font.getLineHeight() / 2, 0);
+        } else {
+            Matrix.setIdentityM(this.centerMatrix, 0);
+        }
+    }
+
+    public boolean getCentered() {
+        //This really should be refactored with a boolean value
+        float[] tmp = new float[16];
+        Matrix.setIdentityM(tmp, 0);
+        return !this.centerMatrix.equals(tmp);
     }
 }
