@@ -27,10 +27,10 @@ public class Bitmap3DColor {
         }
 
         float[] colors = {
-            v1Red, v1Blue, v1Green, v1Alpha,
-            v2Red, v2Blue, v2Green, v2Alpha,
-            v3Red, v3Blue, v3Green, v3Alpha,
-            v4Red, v4Blue, v4Green, v4Alpha
+            v1Red, v1Green, v1Blue, v1Alpha,
+            v2Red, v2Green, v2Blue, v2Alpha,
+            v3Red, v3Green, v3Blue, v3Alpha,
+            v4Red, v4Green, v4Blue, v4Alpha
         };
 
         ByteBuffer clb = ByteBuffer.allocateDirect(colors.length * 4);
