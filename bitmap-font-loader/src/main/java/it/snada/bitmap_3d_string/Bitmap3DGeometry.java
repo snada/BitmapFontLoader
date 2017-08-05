@@ -31,7 +31,6 @@ public class Bitmap3DGeometry {
 
             ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
             bb.order(ByteOrder.nativeOrder());
-
             instance.vertexBuffer = bb.asFloatBuffer();
             instance.vertexBuffer.put(vertices);
             instance.vertexBuffer.position(0);
