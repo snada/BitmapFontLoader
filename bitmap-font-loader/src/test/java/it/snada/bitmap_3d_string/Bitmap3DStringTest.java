@@ -12,11 +12,16 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.snada.bitmap_font_loader.BitmapChar;
 import it.snada.bitmap_font_loader.BitmapFont;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(PowerMockRunner.class)
@@ -292,5 +297,34 @@ public class Bitmap3DStringTest {
     public void testGetCentered() throws Exception {
         Bitmap3DString o = new Bitmap3DString(font, string);
         assertFalse(o.getCentered());
+    }
+
+    @Test
+    public void testGetBitmapFont() throws Exception {
+        Bitmap3DString o = new Bitmap3DString(font, string);
+        assertSame(font, o.getBitmapFont());
+    }
+
+    @Test
+    public void testGetText() throws Exception {
+        Bitmap3DString o = new Bitmap3DString(font, string);
+        assertSame(string, o.getText());
+    }
+
+    @Test
+    public void testSetText() throws Exception {
+        Bitmap3DString o = new Bitmap3DString(font, string);
+        o.setText("aa");
+        assertEquals("aa", o.getText());
+    }
+
+    @Test
+    public void testGet3DChars() throws Exception {
+        Bitmap3DString o = new Bitmap3DString(font, string);
+
+        List<Bitmap3DChar> expected = new ArrayList<>(string.length());
+        expected.add(new Bitmap3DChar(o, chr, 0));
+
+        assertEquals(expected.get(0).bitmapChar.getId(), o.get3dChars().get(0).bitmapChar.getId());
     }
 }
