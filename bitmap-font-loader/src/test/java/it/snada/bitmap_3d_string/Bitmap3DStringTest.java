@@ -77,31 +77,18 @@ public class Bitmap3DStringTest {
     }
 
     @Test
-    public void getTranslationMatrix() throws Exception {
+    public void testGetTranslationMatrix() throws Exception {
         Bitmap3DString o = new Bitmap3DString(font, string);
         o.setPositionX(2.0f);
 
         PowerMockito.doAnswer(new Answer<Object>() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                Object[] args = invocation.getArguments();
-                float[] matrix = (float[])args[0];
-                matrix[0] = 2.0f;
-                matrix[1] = 2.0f;
-                matrix[2] = 2.0f;
-                matrix[3] = 2.0f;
-                matrix[4] = 2.0f;
-                matrix[5] = 2.0f;
-                matrix[6] = 2.0f;
-                matrix[7] = 2.0f;
-                matrix[8] = 2.0f;
-                matrix[9] = 2.0f;
-                matrix[10] = 2.0f;
-                matrix[11] = 2.0f;
-                matrix[12] = 2.0f;
-                matrix[13] = 2.0f;
-                matrix[14] = 2.0f;
-                matrix[15] = 2.0f;
+                float[] matrix = (float[])invocation.getArguments()[0];
+
+                for(int counter = 0; counter < matrix.length; counter++) {
+                    matrix[counter] = 2.0f;
+                }
                 return null;
             }
         }).when(Matrix.class, "translateM", o.translationMatrix, 0, o.getPositionX(), o.getPositionY(), o.getPositionZ());
@@ -111,7 +98,7 @@ public class Bitmap3DStringTest {
     }
 
     @Test
-    public void getRotationMatrix() throws Exception {
+    public void testGetRotationMatrix() throws Exception {
         Bitmap3DString o = new Bitmap3DString(font, string);
         o.setRotationX(0.0f);
         o.setRotationY(1.0f);
@@ -165,7 +152,7 @@ public class Bitmap3DStringTest {
     }
 
     @Test
-    public void getScaleMatrix() throws Exception {
+    public void testGetScaleMatrix() throws Exception {
         Bitmap3DString o = new Bitmap3DString(font, string);
 
         PowerMockito.doAnswer(new Answer<Object>() {
@@ -185,7 +172,7 @@ public class Bitmap3DStringTest {
     }
 
     @Test
-    public void getModelMatrix() throws Exception {
+    public void testGetModelMatrix() throws Exception {
         Bitmap3DString o = new Bitmap3DString(font, string);
 
         PowerMockito.doAnswer(new Answer<Object>() {
