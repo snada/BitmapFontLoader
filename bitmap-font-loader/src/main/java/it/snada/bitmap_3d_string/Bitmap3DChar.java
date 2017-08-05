@@ -53,10 +53,6 @@ public class Bitmap3DChar extends Bitmap3DObject{
 
     public float[] getTranslationMatrix() {
         Matrix.setIdentityM(this.translationMatrix, 0);
-
-        //Painful Android bug. Could be done with:
-        //Matrix.setRotateEulerM(rotationMatrix, 0, rotation[0], rotation[1], rotation[2]);
-        //But returns a wrong matrix on Y axis
         Matrix.translateM(
             this.translationMatrix, 0,
             this.string3D.getPositionX() + (this.getPositionX()),
@@ -68,7 +64,9 @@ public class Bitmap3DChar extends Bitmap3DObject{
 
     public float[] getRotationMatrix() {
         Matrix.setIdentityM(this.rotationMatrix, 0);
-
+        //Painful Android bug. Could be done with:
+        //Matrix.setRotateEulerM(rotationMatrix, 0, rotation[0], rotation[1], rotation[2]);
+        //But returns a wrong matrix on Y axis
         Matrix.rotateM(this.rotationMatrix, 0, this.getRotationX(), 1.0f, 0.0f, 0.0f);
         Matrix.rotateM(this.rotationMatrix, 0, this.getRotationY(), 0.0f, 1.0f, 0.0f);
         Matrix.rotateM(this.rotationMatrix, 0, this.getRotationZ(), 0.0f, 0.0f, 1.0f);
@@ -80,11 +78,11 @@ public class Bitmap3DChar extends Bitmap3DObject{
         Matrix.setIdentityM(scaleMatrix, 0);
 
         Matrix.scaleM(
-                scaleMatrix,
-                0,
-                (this.bitmapChar.getWidth() * this.getScaleX()),
-                (this.bitmapChar.getHeight() * this.getScaleY()),
-                this.getScaleZ()
+            scaleMatrix,
+            0,
+            (this.bitmapChar.getWidth() * this.getScaleX()),
+            (this.bitmapChar.getHeight() * this.getScaleY()),
+            this.getScaleZ()
         );
 
         return this.scaleMatrix;
