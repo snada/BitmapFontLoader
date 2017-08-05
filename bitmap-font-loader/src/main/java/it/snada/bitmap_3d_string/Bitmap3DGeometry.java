@@ -5,6 +5,9 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
+/**
+ * Singleton class to get geometry vertexBuffer and indexBuffer of a 1x1 quad, used in this 3d font rendering method
+ */
 public class Bitmap3DGeometry {
     private static Bitmap3DGeometry instance = null;
 
@@ -15,6 +18,10 @@ public class Bitmap3DGeometry {
         //Nothing to do here
     }
 
+    /**
+     * Gets the single instance of this geometry
+     * @return the Bitmap3DGeometry instance
+     */
     public static Bitmap3DGeometry getInstance() {
         if(instance == null) {
             instance = new Bitmap3DGeometry();
@@ -44,10 +51,18 @@ public class Bitmap3DGeometry {
         return instance;
     }
 
+    /**
+     * Gets the vertex buffer of this geometry
+     * @return a FloatBuffer containing vertex data
+     */
     public FloatBuffer getVertexBuffer() {
         return this.vertexBuffer;
     }
 
+    /**
+     * Gets the index buffer of this geometry
+     * @return a ShortBuffer containing indices data
+     */
     public ShortBuffer getIndexBuffer() {
         return this.indexBuffer;
     }
