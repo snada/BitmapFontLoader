@@ -14,7 +14,7 @@ public class AngelCodeXmlLoader {
 
     }
 
-    public static BitmapFont load(InputStream stream) throws IOException, XmlPullParserException{
+    public static BitmapFont load(InputStream stream) throws IOException, XmlPullParserException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -69,25 +69,25 @@ public class AngelCodeXmlLoader {
                         break;
                     case "char":
                         font.insertChar(new BitmapChar(
-                                Integer.parseInt(parser.getAttributeValue(null, "id")),
-                                Integer.parseInt(parser.getAttributeValue(null, "x")),
-                                Integer.parseInt(parser.getAttributeValue(null, "y")),
-                                Integer.parseInt(parser.getAttributeValue(null, "width")),
-                                Integer.parseInt(parser.getAttributeValue(null, "height")),
-                                Integer.parseInt(parser.getAttributeValue(null, "xoffset")),
-                                Integer.parseInt(parser.getAttributeValue(null, "yoffset")),
-                                Integer.parseInt(parser.getAttributeValue(null, "xadvance")),
-                                Integer.parseInt(parser.getAttributeValue(null, "page")),
-                                GlyphChannel.valueOf(
-                                        Integer.parseInt(parser.getAttributeValue(null, "chnl"))
-                                )
+                            Integer.parseInt(parser.getAttributeValue(null, "id")),
+                            Integer.parseInt(parser.getAttributeValue(null, "x")),
+                            Integer.parseInt(parser.getAttributeValue(null, "y")),
+                            Integer.parseInt(parser.getAttributeValue(null, "width")),
+                            Integer.parseInt(parser.getAttributeValue(null, "height")),
+                            Integer.parseInt(parser.getAttributeValue(null, "xoffset")),
+                            Integer.parseInt(parser.getAttributeValue(null, "yoffset")),
+                            Integer.parseInt(parser.getAttributeValue(null, "xadvance")),
+                            Integer.parseInt(parser.getAttributeValue(null, "page")),
+                            GlyphChannel.valueOf(
+                                Integer.parseInt(parser.getAttributeValue(null, "chnl"))
+                            )
                         ));
                         break;
                     case "kerning":
                         font.insertKerning(
-                                Integer.parseInt(parser.getAttributeValue(null, "first")),
-                                Integer.parseInt(parser.getAttributeValue(null, "second")),
-                                Integer.parseInt(parser.getAttributeValue(null, "amount"))
+                            Integer.parseInt(parser.getAttributeValue(null, "first")),
+                            Integer.parseInt(parser.getAttributeValue(null, "second")),
+                            Integer.parseInt(parser.getAttributeValue(null, "amount"))
                         );
                         break;
                 }
