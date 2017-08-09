@@ -56,7 +56,8 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         try {
-            font = AngelCodeXmlLoader.load(getResources().openRawResource(R.raw.arial));
+            font = new BitmapFont();
+            AngelCodeXmlLoader.load(font, getResources().openRawResource(R.raw.arial));
             string = new Bitmap3DString(font, "Hello!");
             string.setCentered(true);
 

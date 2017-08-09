@@ -76,7 +76,8 @@ public class AngelCodeXmlLoaderTest {
     public void testFace() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals("face", font.getFace());
     }
 
@@ -84,7 +85,8 @@ public class AngelCodeXmlLoaderTest {
     public void testSize() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(1, font.getSize());
     }
 
@@ -92,7 +94,8 @@ public class AngelCodeXmlLoaderTest {
     public void testBold() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(false, font.isBold());
     }
 
@@ -100,7 +103,8 @@ public class AngelCodeXmlLoaderTest {
     public void testItalic() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(true, font.isItalic());
     }
 
@@ -108,7 +112,8 @@ public class AngelCodeXmlLoaderTest {
     public void testUnicode() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(false, font.isUnicode());
     }
 
@@ -116,7 +121,8 @@ public class AngelCodeXmlLoaderTest {
     public void testCharset() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals("charset", font.getCharset());
     }
 
@@ -124,7 +130,8 @@ public class AngelCodeXmlLoaderTest {
     public void testHeightPercentage() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(2, font.getHeightPercentage());
     }
 
@@ -132,7 +139,8 @@ public class AngelCodeXmlLoaderTest {
     public void testSmooth() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(true, font.isSmooth());
     }
 
@@ -140,7 +148,8 @@ public class AngelCodeXmlLoaderTest {
     public void testSuperSampling() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(3, font.getSuperSampling());
     }
 
@@ -148,7 +157,8 @@ public class AngelCodeXmlLoaderTest {
     public void testPaddingUp() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(4, font.getPaddingUp());
     }
 
@@ -156,7 +166,8 @@ public class AngelCodeXmlLoaderTest {
     public void testPaddingRight() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(5, font.getPaddingRight());
     }
 
@@ -164,7 +175,8 @@ public class AngelCodeXmlLoaderTest {
     public void testPaddingDown() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(6, font.getPaddingDown());
     }
 
@@ -172,7 +184,8 @@ public class AngelCodeXmlLoaderTest {
     public void testPaddingLeft() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(7, font.getPaddingLeft());
     }
 
@@ -180,7 +193,8 @@ public class AngelCodeXmlLoaderTest {
     public void testHorizontalSpacing() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(8, font.getHorizontalSpacing());
     }
 
@@ -188,7 +202,8 @@ public class AngelCodeXmlLoaderTest {
     public void testVerticalSpacing() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(9, font.getVerticalSpacing());
     }
 
@@ -196,7 +211,8 @@ public class AngelCodeXmlLoaderTest {
     public void testOutline() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("info");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(10, font.getOutline());
     }
 
@@ -204,7 +220,8 @@ public class AngelCodeXmlLoaderTest {
     public void testLineHeight() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("common");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(11, font.getLineHeight());
     }
 
@@ -212,7 +229,8 @@ public class AngelCodeXmlLoaderTest {
     public void testBase() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("common");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(12, font.getBase());
     }
 
@@ -220,7 +238,8 @@ public class AngelCodeXmlLoaderTest {
     public void testScaleW() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("common");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(13, font.getScaleW());
     }
 
@@ -228,7 +247,8 @@ public class AngelCodeXmlLoaderTest {
     public void testScaleH() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("common");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(14, font.getScaleH());
     }
 
@@ -236,7 +256,8 @@ public class AngelCodeXmlLoaderTest {
     public void testPacked() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("common");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(false, font.isPacked());
     }
 
@@ -244,7 +265,8 @@ public class AngelCodeXmlLoaderTest {
     public void testAlphaChannel() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("common");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(TextureChannelContent.GLYPH_DATA, font.getAlphaChannel());
     }
 
@@ -252,7 +274,8 @@ public class AngelCodeXmlLoaderTest {
     public void testRedChannel() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("common");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(TextureChannelContent.OUTLINE, font.getRedChannel());
     }
 
@@ -260,7 +283,8 @@ public class AngelCodeXmlLoaderTest {
     public void testGreenChannel() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("common");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(TextureChannelContent.GLYPH_AND_OUTLINE, font.getGreenChannel());
     }
 
@@ -268,7 +292,8 @@ public class AngelCodeXmlLoaderTest {
     public void testBlueChannel() throws Exception {
         PowerMockito.when(parser, "getName").thenReturn("common");
 
-        BitmapFont font = AngelCodeXmlLoader.load(stream);
+        BitmapFont font = new BitmapFont();
+        AngelCodeXmlLoader.load(font, stream);
         assertEquals(TextureChannelContent.ZERO, font.getBlueChannel());
     }
 }

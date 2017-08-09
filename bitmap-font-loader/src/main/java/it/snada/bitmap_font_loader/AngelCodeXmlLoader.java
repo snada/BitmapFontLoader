@@ -14,7 +14,7 @@ public class AngelCodeXmlLoader {
 
     }
 
-    public static BitmapFont load(InputStream stream) throws IOException, XmlPullParserException {
+    public static BitmapFont load(BitmapFont font, InputStream stream) throws IOException, XmlPullParserException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -22,8 +22,6 @@ public class AngelCodeXmlLoader {
 
         parser.setInput(reader);
         parser.nextTag();
-
-        BitmapFont font = new BitmapFont();
 
         int eventType = parser.getEventType();
 
