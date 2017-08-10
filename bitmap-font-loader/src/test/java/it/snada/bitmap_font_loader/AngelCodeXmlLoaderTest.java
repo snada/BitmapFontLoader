@@ -5,6 +5,7 @@ import android.util.SparseArray;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -26,8 +27,6 @@ public class AngelCodeXmlLoaderTest {
     XmlPullParser parser;
 
     XmlPullParserFactory factory;
-
-    SparseArray<String> pagesMock;
 
     @Before
     public void setUp() throws Exception {
@@ -295,5 +294,139 @@ public class AngelCodeXmlLoaderTest {
         BitmapFont font = new BitmapFont();
         AngelCodeXmlLoader.load(font, stream);
         assertEquals(TextureChannelContent.ZERO, font.getBlueChannel());
+    }
+
+    @Test
+    public void testPage() throws Exception {
+        PowerMockito.when(parser, "getName").thenReturn("page");
+        BitmapFont font = new BitmapFont();
+
+        SparseArray<String> pagesMock = PowerMockito.mock(SparseArray.class);
+
+        final String[] inserted = new String[1];
+
+        PowerMockito.doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                inserted[0] = (String)invocation.getArguments()[1];
+                return null;
+            }
+        }).when(pagesMock, "put", 0, "page0");
+
+        PowerMockito.doAnswer(new Answer<String>() {
+            @Override
+            public String answer(InvocationOnMock invocation) throws Throwable {
+                return inserted[0];
+            }
+        }).when(pagesMock, "get", 0);
+
+        Whitebox.setInternalState(font, "pages", pagesMock);
+
+        PowerMockito.when(parser, "getAttributeValue", null, "id").thenReturn("0");
+        PowerMockito.when(parser, "getAttributeValue", null, "file").thenReturn("page0");
+
+        AngelCodeXmlLoader.load(font, stream);
+
+        assertEquals("page0", font.getPage(0));
+    }
+
+    @Test
+    public void testKerning() throws Exception {
+        int first = 0;
+        int second = 1;
+        int amount = 100;
+
+        PowerMockito.when(parser, "getName").thenReturn("kerning");
+        BitmapFont font = new BitmapFont();
+
+        final SparseArray<Integer> firstKerningsMock = PowerMockito.mock(SparseArray.class);
+        SparseArray<Integer> kerningsMock = PowerMockito.mock(SparseArray.class);
+
+        final int[] inserted = new int[1];
+
+        PowerMockito.doAnswer(new Answer<SparseArray<Integer>>() {
+            @Override
+            public SparseArray<Integer> answer(InvocationOnMock invocation) throws Throwable {
+                return firstKerningsMock;
+            }
+        }).when(kerningsMock, "get", first);
+
+        PowerMockito.doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                inserted[0] = (int)invocation.getArguments()[1];
+                return null;
+            }
+        }).when(firstKerningsMock, "put", second, amount);
+
+        PowerMockito.doAnswer(new Answer<Integer>() {
+            @Override
+            public Integer answer(InvocationOnMock invocation) throws Throwable {
+                return inserted[0];
+            }
+        }).when(firstKerningsMock, "get", second);
+
+        Whitebox.setInternalState(font, "kernings", kerningsMock);
+
+        PowerMockito.when(parser, "getAttributeValue", null, "first").thenReturn(String.valueOf(first));
+        PowerMockito.when(parser, "getAttributeValue", null, "second").thenReturn(String.valueOf(second));
+        PowerMockito.when(parser, "getAttributeValue", null, "amount").thenReturn(String.valueOf(amount));
+
+        AngelCodeXmlLoader.load(font, stream);
+
+        assertEquals(amount, font.getKerning(first, second));
+    }
+
+    @Test
+    public void testChar() throws Exception {
+        BitmapFont font = new BitmapFont();
+
+        PowerMockito.when(parser, "getName").thenReturn("char");
+        PowerMockito.when(parser, "getAttributeValue", null, "id").thenReturn("1");
+        PowerMockito.when(parser, "getAttributeValue", null, "x").thenReturn("2");
+        PowerMockito.when(parser, "getAttributeValue", null, "y").thenReturn("3");
+        PowerMockito.when(parser, "getAttributeValue", null, "width").thenReturn("4");
+        PowerMockito.when(parser, "getAttributeValue", null, "height").thenReturn("5");
+        PowerMockito.when(parser, "getAttributeValue", null, "xoffset").thenReturn("6");
+        PowerMockito.when(parser, "getAttributeValue", null, "yoffset").thenReturn("7");
+        PowerMockito.when(parser, "getAttributeValue", null, "xadvance").thenReturn("8");
+        PowerMockito.when(parser, "getAttributeValue", null, "page").thenReturn("9");
+        PowerMockito.when(parser, "getAttributeValue", null, "chnl").thenReturn("15");
+
+        SparseArray<BitmapChar> charsMock = PowerMockito.mock(SparseArray.class);
+
+        final BitmapChar[] returned = new BitmapChar[1];
+
+        BitmapChar expected = new BitmapChar(1, 2, 3, 4, 5, 6, 7, 8, 9, GlyphChannel.ALL);
+
+        PowerMockito.doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                returned[0] = (BitmapChar)invocation.getArguments()[1];
+                return null;
+            }
+        }).when(charsMock, "put", Matchers.eq(1), Matchers.any(BitmapChar.class));
+
+        PowerMockito.doAnswer(new Answer<BitmapChar>() {
+            @Override
+            public BitmapChar answer(InvocationOnMock invocation) throws Throwable {
+                return returned[0];
+            }
+        }).when(charsMock, "get", 1);
+
+        Whitebox.setInternalState(font, "chars", charsMock);
+
+        AngelCodeXmlLoader.load(font, stream);
+
+        assertEquals(expected.getId(), font.getChar(1).getId());
+        assertEquals(expected.getX(), font.getChar(1).getX());
+        assertEquals(expected.getY(), font.getChar(1).getY());
+        assertEquals(expected.getWidth(), font.getChar(1).getWidth());
+        assertEquals(expected.getHeight(), font.getChar(1).getHeight());
+        assertEquals(expected.getXOffset(), font.getChar(1).getXOffset());
+        assertEquals(expected.getYOffset(), font.getChar(1).getYOffset());
+        assertEquals(expected.getXAdvance(), font.getChar(1).getXAdvance());
+        assertEquals(expected.getPage(), font.getChar(1).getPage());
+        assertEquals(expected.getChannel(), font.getChar(1).getChannel());
     }
 }
