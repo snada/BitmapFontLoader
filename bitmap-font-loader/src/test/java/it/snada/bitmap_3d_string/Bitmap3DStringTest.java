@@ -319,7 +319,6 @@ public class Bitmap3DStringTest {
     @Test
     public void testGetWidth() throws Exception {
         Bitmap3DString o = new Bitmap3DString(font, string);
-
         assertEquals(9, o.getWidth(), 0);
     }
 }
