@@ -197,10 +197,34 @@ public class Bitmap3DString extends Bitmap3DObject {
     }
 
     /**
+     * Sets scale on X axis so that the resulting string width will be equal to the value passed as parameter
+     * @param preferredWidth float value representing preferred string width
+     */
+    public void setXScaleByPreferredWidth(float preferredWidth) {
+        this.setScaleX(preferredWidth / this.getWidth());
+    }
+
+    /**
+     * Sets scale on Y axis so that the resulting line height will be equal to the value passed as parameter
+     * @param preferredHeight float value representing preferred string height
+     */
+    public void setYScaleByPreferredHeight(float preferredHeight) {
+        this.setScaleY(preferredHeight / this.getHeight());
+    }
+
+    /**
      * Gets current string width
-     * @return
+     * @return float value
      */
     public float getWidth() {
         return this.width;
+    }
+
+    /**
+     * Gets the current line height
+     * @return float value
+     */
+    public float getHeight() {
+        return this.getBitmapFont().getLineHeight();
     }
 }

@@ -59,6 +59,9 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
             font = new BitmapFont();
             AngelCodeXmlLoader.load(font, getResources().openRawResource(R.raw.arial));
             string = new Bitmap3DString(font, "Hello!");
+            string.setXScaleByPreferredWidth(1.0f);
+            string.setScaleY(string.getScaleX());
+            string.setScaleZ(string.getScaleX());
             string.setCentered(true);
 
             Log.i(TAG, font.toString());
@@ -75,7 +78,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
         view = new float[16];
         Matrix.setLookAtM(view, 0,
-            0.0f, 0.0f, 99.0f,
+            0.0f, 0.0f, 1.5f,
             0.0f, 0.0f, 0.0f,
             0.0f, 1.0f, 0.0f
         );
@@ -99,9 +102,9 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
         time += 0.01f;
 
         for (Bitmap3DChar chr : string.get3dChars()) {
-            string.setScaleX((float)Math.abs(Math.sin(time)));
-            string.setScaleY((float)Math.abs(Math.sin(time)));
-            string.setScaleZ((float)Math.abs(Math.sin(time)));
+//            string.setScaleX((float)Math.abs(Math.sin(time)));
+//            string.setScaleY((float)Math.abs(Math.sin(time)));
+//            string.setScaleZ((float)Math.abs(Math.sin(time)));
 
             string.setRotationY(time * 500);
 
@@ -146,7 +149,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
         float ratio = (float)width/(float)height;
 
-        Matrix.perspectiveM(projection, 0, 45.0f, ratio, 0.1f, 1000.0f);
+        Matrix.perspectiveM(projection, 0, 45.0f, ratio, 0.1f, 10.0f);
     }
 
     /**
