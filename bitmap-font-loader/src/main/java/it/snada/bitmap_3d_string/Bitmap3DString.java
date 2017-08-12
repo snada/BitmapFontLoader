@@ -195,4 +195,12 @@ public class Bitmap3DString extends Bitmap3DObject {
     public boolean getCentered() {
         return centered;
     }
+
+    /**
+     * Gets current string width
+     * @return
+     */
+    public float getWidth() {
+        return this.width;
+    }
 }
