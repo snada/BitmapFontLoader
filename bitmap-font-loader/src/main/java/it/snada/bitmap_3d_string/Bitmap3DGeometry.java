@@ -11,6 +11,7 @@ import java.nio.ShortBuffer;
 public class Bitmap3DGeometry {
     private static Bitmap3DGeometry instance = null;
 
+    protected FloatBuffer normalBuffer;
     protected FloatBuffer vertexBuffer;
     protected ShortBuffer indexBuffer;
 
@@ -26,6 +27,12 @@ public class Bitmap3DGeometry {
         if(instance == null) {
             instance = new Bitmap3DGeometry();
 
+            float[] normals = {
+                0.0f, 0.0f, 1.0f,
+                0.0f, 0.0f, 1.0f,
+                0.0f, 0.0f, 1.0f,
+                0.0f, 0.0f, 1.0f
+            };
             float[] vertices = {
                 0.0f, 0.0f, 0.0f, // top left
                 0.0f, -1.0f, 0.0f, // bottom left
@@ -35,6 +42,13 @@ public class Bitmap3DGeometry {
             short[] indices = {
                 0, 1, 2, 0, 2, 3
             };
+
+            ByteBuffer nbb = ByteBuffer.allocateDirect(normals.length * 4);
+            nbb.order(ByteOrder.nativeOrder());
+            instance.normalBuffer = nbb.asFloatBuffer();
+            instance.normalBuffer.put(normals);
+            instance.normalBuffer.position(0);
+
 
             ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
             bb.order(ByteOrder.nativeOrder());
@@ -49,6 +63,14 @@ public class Bitmap3DGeometry {
             instance.indexBuffer.position(0);
         }
         return instance;
+    }
+
+    /**
+     * Gets the normal buffer of this geometry
+     * @return a FloatBuffer containing normal data
+     */
+    public FloatBuffer getNormalBuffer() {
+        return this.normalBuffer;
     }
 
     /**
