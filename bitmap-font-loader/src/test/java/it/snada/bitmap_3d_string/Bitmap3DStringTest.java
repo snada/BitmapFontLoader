@@ -39,6 +39,7 @@ public class Bitmap3DStringTest {
         PowerMockito.when(chr, "getId").thenReturn((int)string.charAt(0));
         PowerMockito.when(chr, "getXOffset").thenReturn(0);
         PowerMockito.when(chr, "getYOffset").thenReturn(0);
+        PowerMockito.when(chr, "getXAdvance").thenReturn(9);
 
         font = PowerMockito.mock(BitmapFont.class);
         PowerMockito.when(font, "getChar", string.charAt(0)).thenReturn(chr);
@@ -313,5 +314,12 @@ public class Bitmap3DStringTest {
         expected.add(new Bitmap3DChar(o, chr, 0));
 
         assertEquals(expected.get(0).bitmapChar.getId(), o.get3dChars().get(0).bitmapChar.getId());
+    }
+
+    @Test
+    public void testGetWidth() throws Exception {
+        Bitmap3DString o = new Bitmap3DString(font, string);
+
+        assertEquals(9, o.getWidth(), 0);
     }
 }
