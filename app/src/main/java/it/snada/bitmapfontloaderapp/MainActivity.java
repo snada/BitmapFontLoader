@@ -102,10 +102,6 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
         time += 0.01f;
 
         for (Bitmap3DChar chr : string.get3dChars()) {
-//            string.setScaleX((float)Math.abs(Math.sin(time)));
-//            string.setScaleY((float)Math.abs(Math.sin(time)));
-//            string.setScaleZ((float)Math.abs(Math.sin(time)));
-
             string.setRotationY(time * 500);
 
             int positionHandle = GLES20.glGetAttribLocation(program.getId(), "vPosition");
