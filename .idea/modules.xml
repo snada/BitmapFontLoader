@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BitmapFontLoader.iml" filepath="$PROJECT_DIR$/BitmapFontLoader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BitmapFontLoaderApp.iml" filepath="$PROJECT_DIR$/BitmapFontLoaderApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/bitmap-font-loader.iml" filepath="$PROJECT_DIR$/bitmap-font-loader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/bitmap-font-loader/bitmap-font-loader-bitmap-font-loader.iml" filepath="$PROJECT_DIR$/bitmap-font-loader/bitmap-font-loader-bitmap-font-loader.iml" />
       <module fileurl="file://$PROJECT_DIR$/bitmapfontloader/bitmapfontloader.iml" filepath="$PROJECT_DIR$/bitmapfontloader/bitmapfontloader.iml" />
     </modules>
   </component>
