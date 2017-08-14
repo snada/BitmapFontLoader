@@ -1,1 +1,1 @@
-include ':app', ':bitmap-font-loader'
+include ':app', ':bitmapfontloader'

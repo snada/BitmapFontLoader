@@ -3,7 +3,6 @@ package it.snada.bitmapfontloaderapp;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.nfc.Tag;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -20,13 +19,12 @@ import java.io.InputStreamReader;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import it.snada.bitmap_3d_string.Bitmap3DChar;
-import it.snada.bitmap_3d_string.Bitmap3DColor;
-import it.snada.bitmap_3d_string.Bitmap3DGeometry;
-import it.snada.bitmap_3d_string.Bitmap3DString;
-import it.snada.bitmap_font_loader.AngelCodeXmlLoader;
-import it.snada.bitmap_font_loader.BitmapChar;
-import it.snada.bitmap_font_loader.BitmapFont;
+import it.snada.bitmap3dstring.Bitmap3DChar;
+import it.snada.bitmap3dstring.Bitmap3DColor;
+import it.snada.bitmap3dstring.Bitmap3DGeometry;
+import it.snada.bitmap3dstring.Bitmap3DString;
+import it.snada.bitmapfontloader.AngelCodeXmlLoader;
+import it.snada.bitmapfontloader.BitmapFont;
 
 public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     private GLSurfaceView mGLView;
