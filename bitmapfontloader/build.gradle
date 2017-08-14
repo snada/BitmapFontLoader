@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'bitmapfontloader'
+
+    publishedGroupId = 'it.snada'
+    libraryName = 'BitmapFontLoader'
+    artifact = 'bitmapfontloader'
+
+    libraryDescription = 'Classes to load AngelCode Bitmap Fonts in Android ready to render in OpenGL apps'
+
+    siteUrl = 'https://github.com/snada/BitmapFontLoader'
+    gitUrl = 'https://github.com/snada/BitmapFontLoader.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'snada'
+    developerName = 'Stefano Nada'
+    developerEmail = 'stefano.nada@gmail.com'
+
+    licenseName = 'MIT'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "25.0.0"
