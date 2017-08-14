@@ -1,0 +1,3 @@
+bintray.user=snada
+bintray.apikey=apikey
+bintray.gpg.password=password

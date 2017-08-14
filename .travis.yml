@@ -9,6 +9,9 @@ before_install:
 - chmod +x gradlew
 - ./gradlew dependencies || true
 
+before_script:
+- cp local.properties.travis local.properties
+
 android:
   components:
     - tools
