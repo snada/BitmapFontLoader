@@ -119,7 +119,7 @@ public class BitmapChar {
 
     /**
      * Sets Y texture position
-     * @param y
+     * @param y int value
      */
     public void setY(int y) {
         this.y = y;
@@ -215,7 +215,7 @@ public class BitmapChar {
 
     /**
      * Sets texture page id
-     * @param page
+     * @param page int value
      */
     public void setPage(int page) {
         this.page = page;

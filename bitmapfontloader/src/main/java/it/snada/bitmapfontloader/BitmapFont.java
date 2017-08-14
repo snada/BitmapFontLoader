@@ -175,7 +175,7 @@ public class BitmapFont {
 
     /**
      * Sets font size
-     * @param size
+     * @param size int value
      */
     public void setSize(int size) {
         this.size = size;
@@ -287,7 +287,7 @@ public class BitmapFont {
 
     /**
      * Font super sampling, should be between 1 (no super sampling) and 4
-     * @param superSampling
+     * @param superSampling int value
      */
     public void setSuperSampling(int superSampling) {
         this.superSampling = superSampling;
@@ -295,7 +295,7 @@ public class BitmapFont {
 
     /**
      * Font outline thickness, greater or equal than 0
-     * @return
+     * @return int value
      */
     public int getOutline() {
         return outline;
@@ -303,7 +303,7 @@ public class BitmapFont {
 
     /**
      * Sets font outline thickness, should be greater or equal 0
-     * @param outline
+     * @param outline int value
      */
     public void setOutline(int outline) {
         this.outline = outline;
