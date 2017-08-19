@@ -9,11 +9,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * Class containing a single static method to load AngelCode BMF fonts in xml format
+ */
 public class AngelCodeXmlLoader {
     private AngelCodeXmlLoader() {
 
     }
 
+    /**
+     * Loads bitmap font information into a BitmapFont object from an xml file exported by AngelCode BMF
+     * @param font Target BitmapFont object that will be loaded with font info. If informations are already present, they will be overridden.
+     * @param stream InputStream containing font into AngelCode BMF xml format
+     * @return the same BitmapFont object
+     * @throws IOException if a problem reading the stream occurs
+     * @throws XmlPullParserException if a problem reading the xml syntax occur
+     */
     public static BitmapFont load(BitmapFont font, InputStream stream) throws IOException, XmlPullParserException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 

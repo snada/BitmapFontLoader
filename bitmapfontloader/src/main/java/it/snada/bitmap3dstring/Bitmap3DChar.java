@@ -132,7 +132,7 @@ public class Bitmap3DChar extends Bitmap3DObject{
         return this.bitmapChar;
     }
 
-     /**
+    /**
      * U value for top left corner of the quad
      * @return float value
      */

@@ -246,7 +246,7 @@ public class BitmapFont {
     }
 
     /**
-     * Font height percentage, or height stretch
+     * Gets the font height stretch in percentage. 100 means no stretch.
      * @return int value
      */
     public int getHeightPercentage() {
@@ -254,7 +254,7 @@ public class BitmapFont {
     }
 
     /**
-     * Sets font height percentage, or height stretch
+     * Sets the font height stretch in percentage. 100 means no stretch.
      * @param heightPercentage int value
      */
     public void setHeightPercentage(int heightPercentage) {
@@ -262,7 +262,7 @@ public class BitmapFont {
     }
 
     /**
-     * Font smooth value
+     * Gets if smoothing was turned on when generating font data
      * @return boolean value
      */
     public boolean isSmooth() {
@@ -270,7 +270,7 @@ public class BitmapFont {
     }
 
     /**
-     * Sets font smooth value
+     * Sets if smoothing was turned on when generating fon data
      * @param smooth boolean value
      */
     public void setSmooth(boolean smooth) {

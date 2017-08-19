@@ -1,7 +1,7 @@
 package it.snada.bitmapfontloader;
 
 /**
- * Enum
+ * Enum abstracting content type of the texture
  */
 public enum TextureChannelContent {
     GLYPH_DATA,

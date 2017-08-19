@@ -7,6 +7,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -15,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -23,6 +25,7 @@ import it.snada.bitmap3dstring.Bitmap3DChar;
 import it.snada.bitmap3dstring.Bitmap3DColor;
 import it.snada.bitmap3dstring.Bitmap3DGeometry;
 import it.snada.bitmap3dstring.Bitmap3DString;
+import it.snada.bitmapfontloader.AngelCodeTxtLoader;
 import it.snada.bitmapfontloader.AngelCodeXmlLoader;
 import it.snada.bitmapfontloader.BitmapFont;
 
@@ -36,11 +39,15 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
     private float time = 0.0f;
 
-    BitmapFont font;
+    BitmapFont targetFont;
+    BitmapFont txtFont;
+    BitmapFont xmlFont;
+
     Bitmap3DString string;
     Bitmap3DGeometry geometry;
     Bitmap3DColor color;
 
+    Map<String, Texture> textures;
     Texture texture;
 
     ShaderProgram program;
@@ -54,22 +61,31 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         try {
-            font = new BitmapFont();
-            AngelCodeXmlLoader.load(font, getResources().openRawResource(R.raw.arial));
-            string = new Bitmap3DString(font, "Hello!");
+            txtFont = new BitmapFont();
+            xmlFont = new BitmapFont();
+            AngelCodeXmlLoader.load(xmlFont, getResources().openRawResource(R.raw.arial_xml));
+            AngelCodeTxtLoader.load(txtFont, getResources().openRawResource(R.raw.arial_txt));
+
+            //Change font here to switch rendered loader
+            targetFont = txtFont;
+
+            string = new Bitmap3DString(targetFont, "Hello!");
             string.setXScaleByPreferredWidth(1.0f);
             string.setScaleY(string.getScaleX());
             string.setScaleZ(string.getScaleX());
             string.setCentered(true);
-
-            Log.i(TAG, font.toString());
         } catch(XmlPullParserException e) {
             Log.e(TAG, "Your xml file has an error: " + e);
         } catch(IOException e) {
             Log.e(TAG, "There's an error with your file: " + e);
         }
 
-        color = new Bitmap3DColor(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f);
+        color = new Bitmap3DColor(
+            1.0f, 0.0f, 0.0f, 1.0f,
+            0.0f, 1.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f, 1.0f,
+            1.0f, 1.0f, 0.0f, 1.0f
+        );
         geometry = Bitmap3DGeometry.getInstance();
 
         GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
@@ -84,10 +100,15 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
         projection = new float[16];
         Matrix.setIdentityM(projection, 0);
 
+        textures = new ArrayMap<>();
+
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.arial, options);
-        texture = new Texture(bitmap);
+        Bitmap txt_bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.arial_txt, options);
+        textures.put("txt_0.png", new Texture(txt_bitmap));
+
+        Bitmap xml_bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.arial_xml, options);
+        textures.put("arial_0.png", new Texture(xml_bitmap));
 
         program = new ShaderProgram(readRawTextFile(R.raw.vertex_shader), readRawTextFile(R.raw.fragment_shader));
     }
@@ -114,8 +135,6 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
             GLES20.glEnableVertexAttribArray(uvHandle);
             GLES20.glVertexAttribPointer(uvHandle, 2, GLES20.GL_FLOAT, false, 2 * 4, chr.getUvBuffer());
 
-            //MODEL MATRIX HERE
-
             int modelMatrixHandle = GLES20.glGetUniformLocation(program.getId(), "model");
             GLES20.glUniformMatrix4fv(modelMatrixHandle, 1, false, chr.getModelMatrix(), 0);
 
@@ -128,7 +147,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
             int textureUniformHandle = GLES20.glGetUniformLocation(program.getId(), "texture");
 
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.getId());
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures.get(targetFont.getPage(chr.getBitmapChar().getPage())).getId());
 
             GLES20.glUniform1i(textureUniformHandle, 0);
 
