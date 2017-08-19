@@ -387,4 +387,10 @@ public class Bitmap3DCharTest {
         Bitmap3DChar o = new Bitmap3DChar(string3D, chr, 0);
         assertEquals(1.75f, o.getBottomRightV(), 0);
     }
+
+    @Test
+    public void testGetBitmapChar() throws Exception {
+        Bitmap3DChar o = new Bitmap3DChar(string3D, chr, 0);
+        assertEquals(chr, o.getBitmapChar());
+    }
 }

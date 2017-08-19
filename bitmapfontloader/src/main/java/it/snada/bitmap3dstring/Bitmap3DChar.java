@@ -125,6 +125,14 @@ public class Bitmap3DChar extends Bitmap3DObject{
     }
 
     /**
+     * Gets the bitmap char containing font info of this 3d positioned char
+     * @return a BitmapChar object containing font data
+     */
+    public BitmapChar getBitmapChar() {
+        return this.bitmapChar;
+    }
+
+     /**
      * U value for top left corner of the quad
      * @return float value
      */
