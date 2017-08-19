@@ -52,17 +52,17 @@ public class BitmapChar {
     private GlyphChannel channel;
 
     /**
-     * Creates a glyph
-     * @param id int value
-     * @param x int value
-     * @param y int value
-     * @param width int value
-     * @param height int value
-     * @param xOffset int value
-     * @param yOffset int value
-     * @param xAdvance int value
-     * @param page int value
-     * @param channel GlyphChannel enum value
+     * Creates a BitmapChar, mapping font information on a single glyph
+     * @param id char value as int
+     * @param x The left position of the character image in the texture
+     * @param y The top position of the character image in the texture
+     * @param width The width of the character image in the texture
+     * @param height The height of the character image in the texture.
+     * @param xOffset How much the current position should be offset when copying the image from the texture to the screen
+     * @param yOffset How much the current position should be offset when copying the image from the texture to the screen
+     * @param xAdvance How much the current position should be advanced after drawing the character
+     * @param page The texture page id where the character image is found
+     * @param channel The texture channel where the character image is found
      */
     public BitmapChar(int id, int x, int y, int width, int height, int xOffset, int yOffset, int xAdvance, int page, GlyphChannel channel) {
         this.id = id;
@@ -94,7 +94,7 @@ public class BitmapChar {
     }
 
     /**
-     * Gets X texture position
+     * Gets X, the left position of the character image in the texture
      * @return int value
      */
     public int getX() {
@@ -102,7 +102,7 @@ public class BitmapChar {
     }
 
     /**
-     * Sets X texture position
+     * Sets X, the left position of the character image in the texture
      * @param x int value
      */
     public void setX(int x) {
@@ -110,7 +110,7 @@ public class BitmapChar {
     }
 
     /**
-     * Gets Y texture position
+     * Gets Y, the top position of the character image in the texture
      * @return int value
      */
     public int getY() {
@@ -118,7 +118,7 @@ public class BitmapChar {
     }
 
     /**
-     * Sets Y texture position
+     * Sets Y, The top position of the character image in the texture
      * @param y int value
      */
     public void setY(int y) {
@@ -126,7 +126,7 @@ public class BitmapChar {
     }
 
     /**
-     * Gets char pixel width
+     * Gets the width of the character image in the texture.
      * @return int value
      */
     public int getWidth() {
@@ -134,7 +134,7 @@ public class BitmapChar {
     }
 
     /**
-     * Sets char pixel width
+     * Sets the width of the character image in the texture
      * @param width int value
      */
     public void setWidth(int width) {
@@ -142,7 +142,7 @@ public class BitmapChar {
     }
 
     /**
-     * Gets char pixel height
+     * Gets the height of the character image in the texture.
      * @return int value
      */
     public int getHeight() {
@@ -150,7 +150,7 @@ public class BitmapChar {
     }
 
     /**
-     * Sets char pixel height
+     * Sets the height of the character image in the texture.
      * @param height int value
      */
     public void setHeight(int height) {
