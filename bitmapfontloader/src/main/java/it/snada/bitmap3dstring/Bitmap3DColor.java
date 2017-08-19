@@ -4,13 +4,43 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+/**
+ * Small class to generate Buffers containing vertex color data for a quad used to render font glyphs
+ * More than one can be generated if different colors can be generated for different strings or even glphs
+ */
 public class Bitmap3DColor {
     protected FloatBuffer colorBuffer;
 
+    /**
+     * Generates an object containing a float buffer with color data for 4 vertices, all the same color
+     * @param red float value between 0 and 1
+     * @param green float value between 0 and 1
+     * @param blue float value between 0 and 1
+     * @param alpha float value between 0 and 1
+     */
     public Bitmap3DColor(float red, float green, float blue, float alpha) {
         this(red, green, blue, alpha, red, green, blue, alpha, red, green, blue, alpha, red, green, blue, alpha);
     }
 
+    /**
+     * Generates an object containing a float buffer with color data for 4 vertices, specifying different colors for each vertex
+     * @param v1Red float value between 0 and 1
+     * @param v1Green float value between 0 and 1
+     * @param v1Blue float value between 0 and 1
+     * @param v1Alpha float value between 0 and 1
+     * @param v2Red float value between 0 and 1
+     * @param v2Green float value between 0 and 1
+     * @param v2Blue float value between 0 and 1
+     * @param v2Alpha float value between 0 and 1
+     * @param v3Red float value between 0 and 1
+     * @param v3Green float value between 0 and 1
+     * @param v3Blue float value between 0 and 1
+     * @param v3Alpha float value between 0 and 1
+     * @param v4Red float value between 0 and 1
+     * @param v4Green float value between 0 and 1
+     * @param v4Blue float value between 0 and 1
+     * @param v4Alpha float value between 0 and 1
+     */
     public Bitmap3DColor(
         float v1Red, float v1Green, float v1Blue, float v1Alpha,
         float v2Red, float v2Green, float v2Blue, float v2Alpha,
@@ -40,6 +70,10 @@ public class Bitmap3DColor {
         this.colorBuffer.position(0);
     }
 
+    /**
+     * Returns the actual FloatBuffer containing color information
+     * @return FloatBuffer object
+     */
     public FloatBuffer getColorBuffer() {
         return this.colorBuffer;
     }

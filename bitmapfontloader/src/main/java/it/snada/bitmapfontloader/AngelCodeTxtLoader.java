@@ -12,7 +12,7 @@ public class AngelCodeTxtLoader {
     private AngelCodeTxtLoader() {}
 
     /**
-     * Loads bitmap font information into a BitmapFont object
+     * Loads bitmap font information into a BitmapFont object from a text file exported by AngelCode BMF
      * @param font Target BitmapFont object that will be loaded with font info. If informations are already present, they will be overridden.
      * @param stream InputStream containing font into AngelCode BMF text format
      * @return the same BitmapFont object
