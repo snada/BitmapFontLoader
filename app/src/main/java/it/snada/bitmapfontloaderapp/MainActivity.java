@@ -104,11 +104,16 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
-        Bitmap txt_bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.arial_txt, options);
-        textures.put("txt_0.png", new Texture(txt_bitmap));
 
-        Bitmap xml_bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.arial_xml, options);
-        textures.put("arial_0.png", new Texture(xml_bitmap));
+        for(int counter = 0; counter < targetFont.getPagesNumber(); counter++) {
+            String pageName = targetFont.getPage(counter);
+            Bitmap bitmap = BitmapFactory.decodeResource(
+                this.getResources(),
+                getResources().getIdentifier(pageName.split("\\.")[0], "drawable", getPackageName()),
+                options
+            );
+            textures.put(targetFont.getPage(counter), new Texture(bitmap));
+        }
 
         program = new ShaderProgram(readRawTextFile(R.raw.vertex_shader), readRawTextFile(R.raw.fragment_shader));
     }
