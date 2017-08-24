@@ -25,6 +25,7 @@ import it.snada.bitmap3dstring.Bitmap3DChar;
 import it.snada.bitmap3dstring.Bitmap3DColor;
 import it.snada.bitmap3dstring.Bitmap3DGeometry;
 import it.snada.bitmap3dstring.Bitmap3DString;
+import it.snada.bitmapfontloader.AngelCodeBinLoader;
 import it.snada.bitmapfontloader.AngelCodeTxtLoader;
 import it.snada.bitmapfontloader.AngelCodeXmlLoader;
 import it.snada.bitmapfontloader.BitmapFont;
@@ -42,6 +43,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     BitmapFont targetFont;
     BitmapFont txtFont;
     BitmapFont xmlFont;
+    BitmapFont binFont;
 
     Bitmap3DString string;
     Bitmap3DGeometry geometry;
@@ -63,11 +65,13 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
         try {
             txtFont = new BitmapFont();
             xmlFont = new BitmapFont();
+            binFont = new BitmapFont();
             AngelCodeXmlLoader.load(xmlFont, getResources().openRawResource(R.raw.arial_xml));
             AngelCodeTxtLoader.load(txtFont, getResources().openRawResource(R.raw.arial_txt));
+            AngelCodeBinLoader.load(binFont, getResources().openRawResource(R.raw.arial_bin));
 
             //Change font here to switch rendered loader
-            targetFont = txtFont;
+            targetFont = binFont;
 
             string = new Bitmap3DString(targetFont, "Hello!");
             string.setXScaleByPreferredWidth(1.0f);
@@ -109,7 +113,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
             String pageName = targetFont.getPage(counter);
             Bitmap bitmap = BitmapFactory.decodeResource(
                 this.getResources(),
-                getResources().getIdentifier(pageName.split("\\.")[0], "drawable", getPackageName()),
+                this.getResources().getIdentifier(pageName.split("\\.")[0], "drawable", this.getPackageName()),
                 options
             );
             textures.put(targetFont.getPage(counter), new Texture(bitmap));
