@@ -25,6 +25,7 @@ import it.snada.bitmap3dstring.Bitmap3DChar;
 import it.snada.bitmap3dstring.Bitmap3DColor;
 import it.snada.bitmap3dstring.Bitmap3DGeometry;
 import it.snada.bitmap3dstring.Bitmap3DString;
+import it.snada.bitmapfontloader.AngelCodeBinLoader;
 import it.snada.bitmapfontloader.AngelCodeTxtLoader;
 import it.snada.bitmapfontloader.AngelCodeXmlLoader;
 import it.snada.bitmapfontloader.BitmapFont;
@@ -42,6 +43,7 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
     BitmapFont targetFont;
     BitmapFont txtFont;
     BitmapFont xmlFont;
+    BitmapFont binFont;
 
     Bitmap3DString string;
     Bitmap3DGeometry geometry;
@@ -63,11 +65,13 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
         try {
             txtFont = new BitmapFont();
             xmlFont = new BitmapFont();
+            binFont = new BitmapFont();
             AngelCodeXmlLoader.load(xmlFont, getResources().openRawResource(R.raw.arial_xml));
             AngelCodeTxtLoader.load(txtFont, getResources().openRawResource(R.raw.arial_txt));
+            AngelCodeBinLoader.load(binFont, getResources().openRawResource(R.raw.arial_bin));
 
             //Change font here to switch rendered loader
-            targetFont = txtFont;
+            targetFont = binFont;
 
             string = new Bitmap3DString(targetFont, "Hello!");
             string.setXScaleByPreferredWidth(1.0f);
@@ -104,11 +108,16 @@ public class MainActivity extends Activity implements GLSurfaceView.Renderer {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
-        Bitmap txt_bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.arial_txt, options);
-        textures.put("txt_0.png", new Texture(txt_bitmap));
 
-        Bitmap xml_bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.arial_xml, options);
-        textures.put("arial_0.png", new Texture(xml_bitmap));
+        for(int counter = 0; counter < targetFont.getPagesNumber(); counter++) {
+            String pageName = targetFont.getPage(counter);
+            Bitmap bitmap = BitmapFactory.decodeResource(
+                this.getResources(),
+                this.getResources().getIdentifier(pageName.split("\\.")[0], "drawable", this.getPackageName()),
+                options
+            );
+            textures.put(targetFont.getPage(counter), new Texture(bitmap));
+        }
 
         program = new ShaderProgram(readRawTextFile(R.raw.vertex_shader), readRawTextFile(R.raw.fragment_shader));
     }
