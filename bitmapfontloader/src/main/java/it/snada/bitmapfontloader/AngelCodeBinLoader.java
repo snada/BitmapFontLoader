@@ -74,17 +74,15 @@ public class AngelCodeBinLoader {
                     for(int counter = 0; counter < pages; counter++) {
                         String read;
                         String accumulator = "";
-                        do {
-                            read = readString(stream, 1);
+                        while((int)(read = readString(stream, 1)).charAt(0) != 0) {
                             accumulator += read;
-                        } while((int)read.charAt(0) != 0);
+                        }
                         font.insertPage(counter, accumulator);
                     }
                     break;
                 case 4:
                     //CHARS BLOCK
                     for(int counter = 0; counter < blockSize; counter += 20) {
-
                         font.insertChar(
                             new BitmapChar(
                                 readInt(stream),
