@@ -13,7 +13,7 @@ Go to you app's gradle file and edit your dependencies:
 ```
 dependencies {
     ...
-    compile 'it.snada:bitmapfontloader:1.1.0'
+    compile 'it.snada:bitmapfontloader:1.2.0'
 }
 ```
 
@@ -49,7 +49,8 @@ AngelCodeXmlLoader.load(font, getResources().openRawResource(R.raw.arial_xml));
 //Loads from a text .fnt file
 AngelCodeTxtLoader.load(font, getResources().openRawResource(R.raw.arial_txt));
 
-//Binary loader coming soon
+//Loads from a binary .fnt file
+AngelCodeBinLoader.load(font, getResources().openRawResource(R.raw.arial_bin));
 ```
 
 The previous example works with Android resources: if you are outside the Android world, simply pass an InputStream.
